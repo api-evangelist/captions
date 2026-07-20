@@ -1,0 +1,27 @@
+generated: '2026-07-18'
+method: searched
+source: https://captions.ai/help/docs/api/overview
+docs: https://captions.ai/help/docs/api/overview
+summary:
+  types: [apiKey]
+  api_key_in: [header]
+  oauth2_flows: []
+  notes: >-
+    Every request to the Mirage Video API must include an `x-api-key` header
+    containing an API key. Keys are minted in the Mirage platform dashboard at
+    https://platform.mirage.app/. The published OpenAPI does not formally
+    declare a securityScheme; the auth model is documented on the API overview
+    page. No OAuth, no scopes.
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter_name: x-api-key
+  description: >-
+    API key issued from the Mirage platform dashboard. Sent on every request as
+    the `x-api-key` request header.
+  sources:
+  - https://captions.ai/help/docs/api/overview
+key_management:
+  dashboard: https://platform.mirage.app/
+  provisioning: Generate and revoke keys in the Mirage platform dashboard.
