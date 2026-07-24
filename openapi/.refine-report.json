@@ -1,0 +1,26 @@
+{
+  "provider": "captions",
+  "sources": [
+    "captions-audio-api-openapi.yml",
+    "captions-health-api-openapi.yml",
+    "captions-internal-api-openapi.yml",
+    "captions-meta-text-overlays-api-openapi.yml",
+    "captions-root-api-openapi.yml",
+    "captions-video-captions-api-openapi.yml",
+    "captions-videos-api-openapi.yml"
+  ],
+  "outputs": [
+    "captions-audio-api-openapi.yml",
+    "captions-health-api-openapi.yml",
+    "captions-internal-api-openapi.yml",
+    "captions-meta-text-overlays-api-openapi.yml",
+    "captions-root-api-openapi.yml",
+    "captions-video-captions-api-openapi.yml",
+    "captions-videos-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

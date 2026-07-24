@@ -1,22 +1,228 @@
 aid: captions
 name: Captions
-description: Captions is a company surfaced as a portfolio company of a16z and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Captions is an AI video editor and generator built by Mirage, an AI research
+  company headquartered in New York City. The consumer and enterprise apps
+  automate the most time-consuming parts of video production — cutting scenes,
+  adding B-roll, inserting music and sound effects, generating and styling
+  captions, dubbing into 30+ languages, correcting eye contact, and generating
+  entirely new videos from a text prompt or a selfie via AI Avatars, AI Actors,
+  and AI Twins. The Mirage Video API (api.mirage.app) exposes this pipeline to
+  developers: asynchronous AI video generation, adding stylized captions to
+  videos, caption-template discovery, text-to-speech audio, and meta text
+  overlays. Authentication is a simple x-api-key header, keys are minted in the
+  Mirage platform dashboard, and long-running jobs are polled for status.
 url: https://raw.githubusercontent.com/api-evangelist/captions/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - a16z
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: active
+x-tier-reason: enriched-real-api
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://captions.ai/logo256.png
 tags:
 - Company
-apis: []
+- Video
+- Artificial Intelligence
+- Video Editing
+- Video Generation
+- Captions
+- Subtitles
+- Text to Speech
+- AI Avatars
+- Content Creation
+- Media
+apis:
+- aid: captions:captions-audio-api
+  name: Captions Audio API
+  description: The Audio API from Captions — 1 operation(s) for audio.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - Audio
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-audio-api-openapi.yml
+  - type: Documentation
+    url: https://captions.ai/help/docs/api/overview
+  - type: APIReference
+    url: https://captions.ai/help/api-reference
+  - type: Authentication
+    url: authentication/captions-authentication.yml
+- aid: captions:captions-health-api
+  name: Captions health API
+  description: The health API from Captions — 1 operation(s) for health.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - health
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-health-api-openapi.yml
+  - type: Documentation
+    url: https://captions.ai/help/docs/api/overview
+  - type: APIReference
+    url: https://captions.ai/help/api-reference
+  - type: Authentication
+    url: authentication/captions-authentication.yml
+- aid: captions:captions-internal-api
+  name: Captions internal API
+  description: The internal API from Captions — 8 operation(s) for internal.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - internal
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-internal-api-openapi.yml
+  - type: Documentation
+    url: https://captions.ai/help/docs/api/overview
+  - type: APIReference
+    url: https://captions.ai/help/api-reference
+  - type: Authentication
+    url: authentication/captions-authentication.yml
+- aid: captions:captions-meta-text-overlays-api
+  name: Captions Meta Text Overlays API
+  description: The Meta Text Overlays API from Captions — 2 operation(s) for meta text overlays.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - Meta Text Overlays
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-meta-text-overlays-api-openapi.yml
+  - type: Documentation
+    url: https://captions.ai/help/docs/api/overview
+  - type: APIReference
+    url: https://captions.ai/help/api-reference
+  - type: Authentication
+    url: authentication/captions-authentication.yml
+- aid: captions:captions-root-api
+  name: Captions root API
+  description: The root API from Captions — 1 operation(s) for root.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - root
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-root-api-openapi.yml
+  - type: Documentation
+    url: https://captions.ai/help/docs/api/overview
+  - type: APIReference
+    url: https://captions.ai/help/api-reference
+  - type: Authentication
+    url: authentication/captions-authentication.yml
+- aid: captions:captions-video-captions-api
+  name: Captions Video Captions API
+  description: The Video Captions API from Captions — 3 operation(s) for video captions.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - Video Captions
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-video-captions-api-openapi.yml
+  - type: Documentation
+    url: https://captions.ai/help/docs/api/overview
+  - type: APIReference
+    url: https://captions.ai/help/api-reference
+  - type: Authentication
+    url: authentication/captions-authentication.yml
+- aid: captions:captions-videos-api
+  name: Captions Videos API
+  description: The Videos API from Captions — 3 operation(s) for videos.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - Videos
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-videos-api-openapi.yml
+  - type: Documentation
+    url: https://captions.ai/help/docs/api/overview
+  - type: APIReference
+    url: https://captions.ai/help/api-reference
+  - type: Authentication
+    url: authentication/captions-authentication.yml
+common:
+- type: Portal
+  url: https://platform.mirage.app/
+- type: Documentation
+  url: https://captions.ai/help/docs/api/overview
+- type: APIReference
+  url: https://captions.ai/help/api-reference
+- type: GettingStarted
+  url: https://captions.ai/help
+- type: Support
+  url: https://captions.ai/help
+- type: Blog
+  url: https://captions.ai/blog
+- type: Pricing
+  url: https://captions.ai/pricing
+- type: SignUp
+  url: https://captions.ai/signup
+- type: TermsOfService
+  url: https://mirage.app/legal/captions-terms
+- type: PrivacyPolicy
+  url: https://mirage.app/legal/privacy-policy
+- type: GitHubOrganization
+  url: https://github.com/captions-ai
+- type: Website
+  url: https://captions.ai
+- type: StatusPage
+  url: https://mirage.statuspage.io
+- type: Compliance
+  url: https://captions.ai/solutions/enterprise
+- type: OpenAPI
+  url: openapi/captions-mirage-openapi-original.json
+- type: LLMsTxt
+  url: llms/captions-llms.txt
+- type: Authentication
+  url: authentication/captions-authentication.yml
+- type: Conventions
+  url: conventions/captions-conventions.yml
+- type: ErrorCatalog
+  url: errors/captions-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/captions-lifecycle.yml
+- type: DataModel
+  url: data-model/captions-data-model.yml
+- type: Conformance
+  url: conformance/captions-conformance.yml
+- type: DomainSecurity
+  url: security/captions-domain-security.yml
+- type: MCPServer
+  url: mcp/captions-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/captions-agentic-access.yml
+- type: Plans
+  url: plans/captions-plans.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

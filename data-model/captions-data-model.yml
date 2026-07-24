@@ -1,0 +1,54 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/captions-mirage-openapi-original.json
+notes: >-
+  Entity-relationship graph derived from the Mirage Video API OpenAPI schemas
+  and id-reference fields. The API is job/resource oriented: a Video is produced
+  by a generation or captioning job and may reference a CaptionTemplate and a
+  source Video; MetaTextOverlay is an independent render job with per-text results.
+entities:
+- name: Video
+  schema: MAVideo
+  id_field: id
+  deprecated_id: video_id
+  statuses: [PROCESSING, COMPLETE, FAILED, CANCELLED]
+  fields: [id, object, status, created_at, completed_at, progress, error, model, source_video_id, caption_template_id, share_link_url]
+- name: CaptionTemplate
+  schema: MACaptionTemplate
+  id_field: id
+  fields: [id, object, name, preview_url, created_at]
+- name: MetaTextOverlay
+  schema: MetaTextOverlay
+  id_field: id
+  statuses_field: status
+  fields: [id, object, status, created_at, completed_at, results, error]
+- name: VideoError
+  schema: MAVideoError
+  fields: [code, message]
+relationships:
+- from: Video
+  to: CaptionTemplate
+  type: belongs_to
+  via: caption_template_id
+  cardinality: has_one
+  note: Present only for captioning jobs (source = caption).
+- from: Video
+  to: Video
+  type: belongs_to
+  via: source_video_id
+  cardinality: has_one
+  note: Self-reference to the input video that was captioned.
+- from: Video
+  to: VideoError
+  type: has_one
+  via: error
+  note: Populated when status = FAILED.
+- from: MetaTextOverlay
+  to: VideoError
+  type: has_one
+  via: error
+- from: MetaTextOverlay
+  to: MetaTextOverlayResult
+  type: has_many
+  via: results
+render: null

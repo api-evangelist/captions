@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/captions-mirage-openapi-original.json
+notes: >-
+  Packaged Agent Skills for the Mirage Video API, generated from the published
+  OpenAPI. Every step is grounded in a real operationId verified against
+  openapi/captions-mirage-openapi-original.json. No provider-published skills or
+  AGENTS.md were found.
+skills:
+- file: captions-generate-avatar-video.md
+  name: Generate an AI avatar video and retrieve the result
+  api: openapi/captions-mirage-openapi-original.json
+  operations:
+  - create_video_generation_v1_videos_post
+  - get_video_status_v1_videos__video_id__get
+  - get_video_content_v1_videos__video_id__content_get
+- file: captions-add-captions.md
+  name: Add stylized captions to a video
+  api: openapi/captions-mirage-openapi-original.json
+  operations:
+  - list_caption_templates_v1_videos_captions_templates_get
+  - create_captioned_video_v1_videos_captions_post
+  - get_video_status_v1_videos__video_id__get
+- file: captions-text-to-speech.md
+  name: Synthesize speech audio from text
+  api: openapi/captions-mirage-openapi-original.json
+  operations:
+  - generate_text_to_speech_v1_audio_text_to_speech__voice_id__post

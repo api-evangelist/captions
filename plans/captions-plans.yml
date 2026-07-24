@@ -1,0 +1,47 @@
+generated: '2026-07-18'
+method: searched
+source: https://captions.ai/pricing
+notes: >-
+  Consumer/enterprise subscription tiers published on the Captions pricing page.
+  Credits meter generative AI usage (AI Twin, AI Actors, text-to-video); unused
+  credits roll over up to 3x the monthly allowance. API access is via the Mirage
+  platform dashboard.
+currency: USD
+plans:
+- name: Free
+  price: 0
+  interval: month
+  highlights:
+    - Basic trimming, transitions
+    - 1 caption template
+    - Watermark on export
+- name: Pro
+  price: 9.99
+  interval: month
+  highlights:
+    - Removes watermark
+    - 100+ caption templates
+- name: Max
+  price: 24.99
+  interval: month
+  credits_per_month: 500
+  highlights:
+    - AI Twin, AI Actors, text-to-video
+    - Chat-based editor
+- name: Scale
+  price_min: 69.99
+  price_max: 279.99
+  interval: month
+  credits_per_month_min: 1400
+  credits_per_month_max: 5600
+  highlights:
+    - Top-tier generative AI models
+    - Higher monthly credit allotments
+- name: Enterprise
+  price: custom
+  highlights:
+    - Custom pricing and bulk credit discounts
+    - Dedicated support and white-glove onboarding
+    - SOC 2 compliance
+    - Role-based permissions, custom-branded templates
+    - Full commercial rights

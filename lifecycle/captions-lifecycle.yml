@@ -1,0 +1,29 @@
+generated: '2026-07-18'
+method: searched
+source: https://captions.ai/help/api-reference
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://captions.ai/help/api-reference
+models:
+  scheme: aliased-latest
+  example: mirage-video-1-latest
+  notes: >-
+    Video generation accepts a `model` identifier; the OpenAPI documents
+    `mirage-video-1-latest` as a moving "latest" alias for the generation model.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: >-
+    No formal deprecation policy or RFC 8594 Sunset/Deprecation header support
+    was found. Field-level deprecation exists in the spec (see below).
+deprecated_fields:
+- resource: MAVideo
+  field: video_id
+  replacement: id
+  note: '[Deprecated] Use "id" instead.'
+deprecated_operations: []
+status_page: https://mirage.statuspage.io
+sla:
+  url: null
+  uptime_target: null

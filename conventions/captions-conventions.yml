@@ -1,0 +1,72 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/captions-mirage-openapi-original.json
+docs: https://captions.ai/help/api-reference
+summary: >-
+  Cross-cutting request/response semantics for the Mirage Video API, derived
+  from the published OpenAPI and the API reference. The API is REST/JSON over
+  HTTPS, key-authenticated, versioned in the URI path (/v1), with an
+  asynchronous job model (create returns a job, poll for terminal status) and
+  cursor-based pagination on list endpoints.
+base_url: https://api.mirage.app
+authentication:
+  style: api-key-header
+  header: x-api-key
+  ref: authentication/captions-authentication.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  example: /v1/videos
+async_jobs:
+  model: create-then-poll
+  description: >-
+    Write operations (create video, add captions, create meta text overlay)
+    return a job object with a `status` field. Clients poll the corresponding
+    retrieve endpoint until status reaches a terminal state.
+  status_field: status
+  states: [PROCESSING, COMPLETE, FAILED, CANCELLED]
+  progress_field: progress
+  timestamps: [created_at, completed_at]
+  create_operations:
+  - create_video_generation_v1_videos_post
+  - create_captioned_video_v1_videos_captions_post
+  - create_meta_text_overlay_v1_meta_text_overlays_post
+  poll_operations:
+  - get_video_status_v1_videos__video_id__get
+  - get_meta_text_overlay_v1_meta_text_overlays__text_overlay_id__get
+pagination:
+  style: cursor
+  operations: [list_videos_v1_videos_get]
+  params:
+    cursor: after            # return items strictly after this video ID
+    limit: limit             # 1-100, default 20
+    order: order             # asc | desc by creation time, default desc
+metadata:
+  timestamps: unix-epoch-seconds
+  object_typing: >-
+    Response objects carry an `object` discriminator field (e.g. "video",
+    "caption_template").
+idempotency:
+  supported: false
+  notes: >-
+    No idempotency-key header or parameter is documented in the OpenAPI or the
+    API reference as of this capture.
+error_envelope:
+  ref: errors/captions-problem-types.yml
+  job_errors:
+    field: error
+    shape: { code: string, message: string }
+    example_code: rate_limit_exceeded
+  validation_errors:
+    status: 422
+    shape: HTTPValidationError (detail[] of loc/msg/type)
+rate_limiting:
+  documented_numbers: false
+  signals:
+    - Job errors can carry code `rate_limit_exceeded`.
+    - The API maintains per-endpoint rate-limit override configuration (internal endpoints).
+media:
+  uploads: multipart/form-data (image, audio, video file references)
+  downloads: >-
+    get_video_content redirects to the rendered video URL; text-to-speech can
+    return audio/wav.

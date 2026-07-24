@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: searched
+source: https://captions.ai/help/api-reference
+docs: https://captions.ai/solutions/enterprise
+standards:
+- id: oauth2
+  conforms: false
+  evidence: API uses an x-api-key header; no OAuth2 declared.
+- id: oidc
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use FastAPI HTTPValidationError and a custom {code,message} job error, not application/problem+json.
+- id: rfc8594-deprecation-sunset
+  conforms: false
+  evidence: No Sunset/Deprecation header support found.
+- id: cursor-pagination
+  conforms: true
+  evidence: list_videos supports `after` cursor + `limit` + `order`.
+- id: json-api
+  conforms: false
+- id: openapi-3.1
+  conforms: true
+  evidence: Published OpenAPI 3.1.0 document at api.mirage.app/openapi.json.
+compliance_programs:
+- id: soc2
+  published: true
+  evidence: >-
+    Enterprise plan and pricing pages state SOC 2 compliance / certification
+    for enterprise teams.
+  source: https://captions.ai/solutions/enterprise

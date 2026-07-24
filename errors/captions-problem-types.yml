@@ -1,0 +1,43 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/captions-mirage-openapi-original.json
+format: custom
+notes: >-
+  The Mirage Video API does not use RFC 9457 application/problem+json. Two error
+  surfaces exist: (1) request validation returns HTTP 422 with a FastAPI-style
+  HTTPValidationError body (`detail[]` of loc/msg/type); (2) asynchronous job
+  failures surface an `error` object of shape {code, message} on the video/job
+  resource once `status` becomes FAILED. Error codes below are captured from the
+  OpenAPI examples/descriptions; the published surface documents `rate_limit_exceeded`.
+envelopes:
+- name: HTTPValidationError
+  http_status: 422
+  media_type: application/json
+  shape: >-
+    { "detail": [ { "loc": ["body","field"], "msg": "...", "type": "..." } ] }
+  applies_to_all_operations: true
+- name: MAVideoError
+  surfaced_on: video/job resource `error` field (when status = FAILED)
+  media_type: application/json
+  shape: '{ "code": string, "message": string }'
+problems:
+- status: 422
+  type: validation_error
+  title: Request validation failed
+  envelope: HTTPValidationError
+  detail: >-
+    One or more request parameters or body fields failed validation. Returned by
+    every documented operation.
+- status: 200
+  type: rate_limit_exceeded
+  title: Rate limit exceeded
+  envelope: MAVideoError
+  detail: >-
+    A generation job failed because the caller exceeded their rate limit. Code
+    documented as `rate_limit_exceeded` on the job `error` object.
+job_failure:
+  status_value: FAILED
+  error_field: error
+  reference_operations:
+  - get_video_status_v1_videos__video_id__get
+  - get_meta_text_overlay_v1_meta_text_overlays__text_overlay_id__get

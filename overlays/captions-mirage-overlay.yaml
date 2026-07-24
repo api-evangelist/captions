@@ -1,0 +1,34 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Mirage Video API
+  version: 1.0.0
+extends: openapi/captions-mirage-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: captions
+    x-apievangelist-company: Mirage
+    x-apievangelist-humanURL: https://captions.ai/help/api-reference
+    x-base-url: https://api.mirage.app
+- target: $.info
+  update:
+    x-authentication:
+      type: apiKey
+      in: header
+      name: x-api-key
+      dashboard: https://platform.mirage.app/
+- target: $.info
+  update:
+    x-async-model:
+      pattern: create-then-poll
+      status_field: status
+      states: [PROCESSING, COMPLETE, FAILED, CANCELLED]
+- target: $.info
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/captions-authentication.yml
+      conventions: conventions/captions-conventions.yml
+      errors: errors/captions-problem-types.yml
+      lifecycle: lifecycle/captions-lifecycle.yml
+      data_model: data-model/captions-data-model.yml
+      status_page: https://mirage.statuspage.io
