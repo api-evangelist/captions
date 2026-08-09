@@ -1,0 +1,51 @@
+{
+  "title": "Submit AI Creator Video Job",
+  "description": "Example showing how to submit a talking-head video generation job using the AI Creator API.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.captions.ai/api/creator/submit",
+    "headers": {
+      "x-api-key": "your_api_key_here",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "script": "Welcome to Captions! Create stunning AI videos in seconds using our powerful API.",
+      "creatorName": "Kate",
+      "resolution": "4k"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "operationId": "op_xyz789abc123"
+    }
+  },
+  "poll_example": {
+    "request": {
+      "method": "POST",
+      "url": "https://api.captions.ai/api/creator/poll",
+      "headers": {
+        "x-api-key": "your_api_key_here",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "operationId": "op_xyz789abc123"
+      }
+    },
+    "response_in_progress": {
+      "status": 200,
+      "body": {
+        "state": "PROCESSING",
+        "progress": 45
+      }
+    },
+    "response_complete": {
+      "status": 200,
+      "body": {
+        "state": "COMPLETE",
+        "url": "https://cdn.captions.ai/videos/op_xyz789abc123.mp4"
+      }
+    }
+  },
+  "notes": "Scripts must be 800 characters or fewer. Rate limit is 5 requests per minute. Usage billed at 1 credit per second of generated video."
+}

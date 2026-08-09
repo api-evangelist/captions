@@ -1,0 +1,61 @@
+{
+  "title": "Generate AI Video (Mirage Video API)",
+  "description": "Example showing how to create an AI talking-head video from an image and audio reference using the Mirage Video API.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.mirage.app/v1/videos",
+    "headers": {
+      "x-api-key": "mira_yourApiKeyHere",
+      "Content-Type": "multipart/form-data"
+    },
+    "body": {
+      "image_reference": "<binary JPEG or PNG file>",
+      "audio_reference": "<binary WAV or MP3 file>",
+      "model": "mirage-video-1-latest"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "video_abc123def456",
+      "object": "video",
+      "status": "PROCESSING",
+      "created_at": 1730822400,
+      "completed_at": null,
+      "progress": 0,
+      "error": null,
+      "model": "mirage-video-1-latest",
+      "source_video_id": null,
+      "caption_template_id": null,
+      "share_link_url": null,
+      "video_id": "video_abc123def456"
+    }
+  },
+  "poll_example": {
+    "request": {
+      "method": "GET",
+      "url": "https://api.mirage.app/v1/videos/video_abc123def456",
+      "headers": {
+        "x-api-key": "mira_yourApiKeyHere"
+      }
+    },
+    "response_complete": {
+      "status": 200,
+      "body": {
+        "id": "video_abc123def456",
+        "object": "video",
+        "status": "COMPLETE",
+        "created_at": 1730822400,
+        "completed_at": 1730822520,
+        "progress": 100,
+        "error": null,
+        "model": "mirage-video-1-latest",
+        "source_video_id": null,
+        "caption_template_id": null,
+        "share_link_url": null,
+        "video_id": "video_abc123def456"
+      }
+    }
+  },
+  "notes": "Mirage Video API is currently in limited early-access beta. Poll GET /v1/videos/{video_id} until status=COMPLETE, then fetch content via GET /v1/videos/{video_id}/content."
+}

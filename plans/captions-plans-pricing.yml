@@ -1,0 +1,178 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+provider: Captions
+providerId: captions-ai
+created: '2026-06-12'
+modified: '2026-06-12'
+reconciled: true
+
+type: freemium
+
+plans:
+  - name: Free
+    type: free
+    description: >
+      Basic plan with limited editing tools. No AI credit allocation; does not include access to
+      generative AI features or the Captions API.
+    price:
+      amount: 0
+      currency: USD
+      period: monthly
+    features:
+      - type: boolean
+        name: API Access
+        value: false
+      - type: boolean
+        name: AI Video Generation
+        value: false
+      - type: boolean
+        name: Basic Video Editing
+        value: true
+
+  - name: Max
+    type: paid
+    description: >
+      Most popular plan for individual creators and professionals. Includes monthly AI credits
+      usable for generative AI features and API video generation.
+    price:
+      amount: 24.99
+      currency: USD
+      period: monthly
+    features:
+      - type: quota
+        name: Monthly AI Credits
+        limit: 500
+        unit: credits
+        period: monthly
+        notes: Unused credits roll over up to 3x monthly allowance
+      - type: boolean
+        name: API Access
+        value: true
+      - type: boolean
+        name: AI Twin Generation
+        value: true
+      - type: boolean
+        name: AI Edit
+        value: true
+      - type: boolean
+        name: Custom AI Actors
+        value: true
+      - type: boolean
+        name: Custom B-roll
+        value: true
+
+  - name: Scale 1x
+    type: paid
+    description: Business plan for teams producing content at scale with higher credit allocation.
+    price:
+      amount: 69.99
+      currency: USD
+      period: monthly
+    features:
+      - type: quota
+        name: Monthly AI Credits
+        limit: 1400
+        unit: credits
+        period: monthly
+        notes: Unused credits roll over up to 3x monthly allowance
+      - type: boolean
+        name: API Access
+        value: true
+      - type: boolean
+        name: All Max Features
+        value: true
+      - type: boolean
+        name: Top-Tier AI Models
+        value: true
+
+  - name: Scale 2x
+    type: paid
+    description: Higher-volume business plan with doubled credit allocation.
+    price:
+      amount: 139.99
+      currency: USD
+      period: monthly
+    features:
+      - type: quota
+        name: Monthly AI Credits
+        limit: 2800
+        unit: credits
+        period: monthly
+        notes: Unused credits roll over up to 3x monthly allowance
+      - type: boolean
+        name: API Access
+        value: true
+
+  - name: Scale 4x
+    type: paid
+    description: Maximum self-serve volume plan for agencies and high-volume producers.
+    price:
+      amount: 279.99
+      currency: USD
+      period: monthly
+    features:
+      - type: quota
+        name: Monthly AI Credits
+        limit: 5600
+        unit: credits
+        period: monthly
+        notes: Unused credits roll over up to 3x monthly allowance
+      - type: boolean
+        name: API Access
+        value: true
+
+  - name: Enterprise
+    type: enterprise
+    description: >
+      Custom pricing for organizations needing bulk credits, dedicated account management,
+      custom seats, training data exclusion, and early beta access.
+    price:
+      amount: 0
+      currency: USD
+      period: custom
+      notes: Contact sales for custom pricing
+    features:
+      - type: boolean
+        name: API Access
+        value: true
+      - type: boolean
+        name: Bulk Credit Discounts
+        value: true
+      - type: boolean
+        name: Dedicated Account Management
+        value: true
+      - type: boolean
+        name: Training Data Exclusion
+        value: true
+      - type: boolean
+        name: Early Beta Access
+        value: true
+
+apiPricing:
+  - name: Video Captioning API
+    description: Per-minute billing for Add Captions endpoint
+    type: metered
+    metric: minutes of input video
+    rate:
+      amount: 0.15
+      currency: USD
+      unit: minute
+      notes: Rounded up to the nearest minute (e.g., 2.5 min billed as 3 min = $0.45)
+  - name: AI Creator API
+    description: Per-second credit billing for AI talking-head video generation
+    type: metered
+    metric: seconds of generated video
+    rate:
+      amount: 1
+      currency: credits
+      unit: second
+      notes: 1 credit per second; 30-second video = 30 credits
+  - name: AI Ads API
+    description: Per-second credit billing for AI ad video generation
+    type: metered
+    metric: seconds of generated video
+    rate:
+      amount: 1
+      currency: credits
+      unit: second
+      notes: 1 credit per second; 30-second video = 30 credits

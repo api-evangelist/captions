@@ -1,0 +1,224 @@
+openapi: 3.0.3
+info:
+  title: Captions & AI Ads AI Creator API
+  description: 'REST API for generating AI talking-head videos using community avatars (AI Creator) and UGC-style AI advertising videos (AI Ads). Both APIs are asynchronous: submit a job, then poll for completion. Scripts are limited to 800 characters, supporting 30+ languages with automatic detection. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute per endpoint.
+
+    '
+  version: '1.0'
+  contact:
+    name: Captions API Support
+    url: https://captions.ai/help/docs/api/overview
+servers:
+- url: https://api.captions.ai/api
+  description: Captions API production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: AI Creator
+  description: Generate talking-head videos using community AI avatars or AI Twins
+paths:
+  /creator/list:
+    post:
+      tags:
+      - AI Creator
+      summary: List AI Creators
+      description: 'Retrieves a list of AI creators (community avatars and AI Twins) that can be used with the AI Creator API, along with thumbnail image and video preview URLs.
+
+        '
+      operationId: listCreators
+      responses:
+        '200':
+          description: Returns list of supported creators and thumbnails
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /creator/submit:
+    post:
+      tags:
+      - AI Creator
+      summary: Submit AI Creator Video Job
+      description: 'Submit a video generation job using an AI Creator avatar. The script must be 800 characters or fewer and supports 30+ languages with automatic language detection. Videos max out at 1 minute. Usage is billed at 1 credit per second of generated video.
+
+        '
+      operationId: submitCreatorJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatorSubmitRequest'
+      responses:
+        '200':
+          description: Returns an operation ID for polling
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /creator/poll:
+    post:
+      tags:
+      - AI Creator
+      summary: Poll AI Creator Video Job
+      description: 'Poll the status of an AI Creator video generation job. Returns QUEUED or PROCESSING with a progress value while in-flight, or a completed video URL when done.
+
+        '
+      operationId: pollCreatorJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PollRequest'
+      responses:
+        '200':
+          description: Returns job status and video URL on completion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PollResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    CreatorThumbnail:
+      type: object
+      description: Thumbnail assets for an AI creator
+      properties:
+        imageUrl:
+          type: string
+          description: Static thumbnail image URL
+          example: https://cdn.captions.ai/creators/kate/thumb.jpg
+        videoUrl:
+          type: string
+          description: Short preview video URL
+          example: https://cdn.captions.ai/creators/kate/preview.mp4
+    PollRequest:
+      type: object
+      required:
+      - operationId
+      description: Request body for polling a video generation job
+      properties:
+        operationId:
+          type: string
+          description: The identifier for the video generation request to check
+          example: op_xyz789abc
+    ErrorResponse:
+      type: object
+      description: Error response body
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized API key
+    CreatorListResponse:
+      type: object
+      description: List of available AI creators with thumbnail assets
+      properties:
+        supportedCreators:
+          type: array
+          items:
+            type: string
+          description: List of available creator names
+          example:
+          - Kate
+          - Alex
+          - Jordan
+        thumbnails:
+          type: object
+          description: Map of creator name to thumbnail URLs
+          additionalProperties:
+            $ref: '#/components/schemas/CreatorThumbnail'
+    SubmitResponse:
+      type: object
+      description: Response from a job submission containing the operation ID
+      properties:
+        operationId:
+          type: string
+          description: Unique identifier for the submitted job; use with poll endpoints
+          example: op_xyz789abc
+    PollResponse:
+      type: object
+      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
+
+        '
+      properties:
+        url:
+          type: string
+          description: URL to the generated video (present when state=COMPLETE)
+          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
+        state:
+          type: string
+          enum:
+          - QUEUED
+          - PROCESSING
+          - COMPLETE
+          description: Current state of the job
+          example: COMPLETE
+        progress:
+          type: number
+          description: Progress indicator (present while in-flight)
+          example: 65
+    CreatorSubmitRequest:
+      type: object
+      required:
+      - script
+      description: 'Request body for submitting an AI Creator video generation job.
+
+        '
+      properties:
+        script:
+          type: string
+          maxLength: 800
+          description: Script for the AI Creator (max 800 characters)
+          example: Welcome to Captions! Create stunning AI videos in seconds.
+        creatorName:
+          type: string
+          description: AI Creator name. Defaults to Kate if not specified.
+          default: Kate
+          example: Kate
+        webhookId:
+          type: string
+          description: Registered webhook identifier for completion notification
+          example: wh_abc123
+        resolution:
+          type: string
+          enum:
+          - fhd
+          - 4k
+          default: 4k
+          description: Output video resolution
+  responses:
+    RateLimited:
+      description: Too Many Requests — rate limit is 5 requests per minute
+      content:
+        text/html:
+          schema:
+            type: string
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key

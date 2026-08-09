@@ -1,0 +1,129 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "captions": "https://raw.githubusercontent.com/api-evangelist/captions-ai/main/vocabulary/captions-ai-vocabulary.yml#",
+
+    "MAVideo": {
+      "@id": "schema:VideoObject",
+      "@type": "@id"
+    },
+    "id": "@id",
+    "object": "@type",
+    "status": {
+      "@id": "schema:actionStatus"
+    },
+    "created_at": {
+      "@id": "schema:dateCreated",
+      "@type": "schema:DateTime"
+    },
+    "completed_at": {
+      "@id": "schema:endDate",
+      "@type": "schema:DateTime"
+    },
+    "progress": {
+      "@id": "schema:percentComplete",
+      "@type": "schema:Number"
+    },
+    "model": {
+      "@id": "schema:softwareVersion"
+    },
+    "source_video_id": {
+      "@id": "schema:isBasedOn",
+      "@type": "@id"
+    },
+    "caption_template_id": {
+      "@id": "captions:captionTemplateId"
+    },
+    "share_link_url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+
+    "MACaptionTemplate": {
+      "@id": "captions:CaptionTemplate",
+      "@type": "@id"
+    },
+    "preview_url": {
+      "@id": "schema:thumbnailUrl",
+      "@type": "@id"
+    },
+
+    "CreatorListResponse": {
+      "@id": "captions:CreatorList",
+      "@type": "@id"
+    },
+    "supportedCreators": {
+      "@id": "captions:supportedCreators",
+      "@container": "@list"
+    },
+    "thumbnails": {
+      "@id": "captions:thumbnails"
+    },
+    "imageUrl": {
+      "@id": "schema:image",
+      "@type": "@id"
+    },
+    "videoUrl": {
+      "@id": "schema:video",
+      "@type": "@id"
+    },
+
+    "operationId": {
+      "@id": "captions:operationId"
+    },
+    "script": {
+      "@id": "schema:text"
+    },
+    "creatorName": {
+      "@id": "schema:name"
+    },
+    "resolution": {
+      "@id": "captions:resolution"
+    },
+    "mediaUrls": {
+      "@id": "schema:associatedMedia",
+      "@container": "@list",
+      "@type": "@id"
+    },
+
+    "MetaTextOverlay": {
+      "@id": "captions:MetaTextOverlay",
+      "@type": "@id"
+    },
+    "results": {
+      "@id": "schema:result",
+      "@container": "@list"
+    },
+    "texts": {
+      "@id": "schema:text",
+      "@container": "@list"
+    },
+
+    "TTSRequest": {
+      "@id": "schema:SpeakableSpecification",
+      "@type": "@id"
+    },
+    "text": {
+      "@id": "schema:text"
+    },
+
+    "error": {
+      "@id": "schema:error"
+    },
+    "code": {
+      "@id": "schema:identifier"
+    },
+    "message": {
+      "@id": "schema:description"
+    },
+
+    "name": "schema:name",
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "state": {
+      "@id": "schema:actionStatus"
+    }
+  }
+}

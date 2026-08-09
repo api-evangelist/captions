@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/captions-ai/main/json-schema/captions-ai-video-schema.json",
+  "title": "MAVideo",
+  "description": "Represents a Mirage/Captions video object. A video can be created via AI generation (image+audio) or captioning (adding captions to an existing video).",
+  "type": "object",
+  "required": ["id", "status", "created_at", "video_id"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Video generation job ID",
+      "examples": ["video_abc123def456"]
+    },
+    "object": {
+      "type": "string",
+      "enum": ["video"],
+      "default": "video"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PROCESSING", "COMPLETE", "FAILED", "CANCELLED"],
+      "description": "Current state of the video"
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "When the video was created (unix timestamp)",
+      "examples": [1730822400]
+    },
+    "completed_at": {
+      "type": ["integer", "null"],
+      "description": "When processing completed (unix timestamp)",
+      "examples": [1730822520]
+    },
+    "progress": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Progress percentage (0-100)",
+      "examples": [100]
+    },
+    "error": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/MAVideoError"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Error details if status is FAILED"
+    },
+    "model": {
+      "type": ["string", "null"],
+      "enum": ["mirage-video-1-latest", null],
+      "description": "Model used for generation (only for source=generation)"
+    },
+    "source_video_id": {
+      "type": ["string", "null"],
+      "description": "The input video that was captioned (only for source=caption)"
+    },
+    "caption_template_id": {
+      "type": ["string", "null"],
+      "description": "Caption style template used (only for source=caption)"
+    },
+    "share_link_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Public share link for a completed internal video, when enabled"
+    },
+    "video_id": {
+      "type": "string",
+      "description": "[Deprecated] Use 'id' instead.",
+      "deprecated": true
+    }
+  },
+  "definitions": {
+    "MAVideoError": {
+      "type": "object",
+      "required": ["code", "message"],
+      "description": "Error payload that explains why generation failed",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Error code",
+          "examples": ["rate_limit_exceeded"]
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error message",
+          "examples": ["Rate limit exceeded. Please try again later."]
+        }
+      }
+    }
+  }
+}

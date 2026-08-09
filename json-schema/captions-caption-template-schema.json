@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/captions-ai/main/json-schema/captions-ai-caption-template-schema.json",
+  "title": "MACaptionTemplate",
+  "description": "Represents a caption style template available for use with the Captions Video API.",
+  "type": "object",
+  "required": ["id", "name", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique template identifier",
+      "examples": ["ctpl_123456789abcdefg"]
+    },
+    "object": {
+      "type": "string",
+      "enum": ["caption_template"],
+      "default": "caption_template"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable template name",
+      "examples": ["Bold White"]
+    },
+    "preview_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URL to a preview video of the template",
+      "examples": ["https://captions-cdn.xyz/studio-assets/captions-style-previews/1FA3A381-5DDF-4ECD-936B-63D7CF16DEB0.mp4"]
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "When the template was created (unix timestamp)",
+      "examples": [1730000000]
+    }
+  }
+}

@@ -1,0 +1,651 @@
+openapi: 3.0.3
+info:
+  title: Mirage Video API
+  description: >
+    API for AI-powered video generation, video captioning, text-to-speech, and
+    Meta text overlay generation. Served at api.mirage.app under the Captions /
+    Mirage platform. All endpoints require an x-api-key header for authentication.
+  version: 0.0.1
+  contact:
+    name: Captions API Support
+    url: https://captions.ai/help/docs/api/overview
+servers:
+  - url: https://api.mirage.app
+    description: Mirage API production server
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Videos
+    description: Create and list AI-generated videos
+  - name: Video Captions
+    description: Add AI captions to videos and manage caption templates
+  - name: Audio
+    description: Text-to-speech audio generation
+  - name: Meta Text Overlays
+    description: Render static text overlays onto videos
+
+paths:
+  /v1/videos:
+    post:
+      tags: [Videos]
+      summary: Create Video
+      operationId: createVideo
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateVideoRequest'
+      responses:
+        '200':
+          description: Returns a Video object representing the generation job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MAVideo'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+    get:
+      tags: [Videos]
+      summary: List Videos
+      description: >
+        List videos for the authenticated API key with optional pagination.
+        Filters by the calling user's ID (and org if present). Ordered by
+        creation time ascending or descending. Supports cursor pagination using
+        the `after` video ID.
+      operationId: listVideos
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+        - name: after
+          in: query
+          description: Return items strictly after this video ID
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Max number of items to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: order
+          in: query
+          description: Sort order by creation time
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MAVideo'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/videos/{video_id}:
+    get:
+      tags: [Videos]
+      summary: Retrieve Video
+      description: Get the status of a video.
+      operationId: getVideo
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+        - name: video_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a Video object with the current generation status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MAVideo'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/videos/{video_id}/content:
+    get:
+      tags: [Videos]
+      summary: Retrieve Video Content
+      description: Download the video file (redirects to video URL).
+      operationId: getVideoContent
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+        - name: video_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Redirects to video file
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/videos/captions:
+    post:
+      tags: [Video Captions]
+      summary: Add Captions to a Video
+      description: >
+        Create a captioned video from either an uploaded video file or an
+        existing video ID. You must provide exactly one of: `video` (file
+        upload, .mp4 or .mov, max 50 MB, 9:16 aspect ratio) or `video_id`
+        (existing video ID). If providing `video_id`, the source video must
+        have status COMPLETE. Billing is $0.15 per minute of input video,
+        rounded up. Poll via GET /v1/videos/{video_id}.
+      operationId: addCaptions
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddCaptionsRequest'
+      responses:
+        '200':
+          description: Returns a Video object representing the captioning job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MAVideo'
+              example:
+                id: video_cap789xyz
+                object: video
+                status: PROCESSING
+                created_at: 1730822600
+                progress: 0
+                source_video_id: null
+                caption_template_id: ctpl_DxflLOnuKkb198FNdI9E
+                video_id: video_cap789xyz
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/videos/captions/templates:
+    get:
+      tags: [Video Captions]
+      summary: List Caption Templates
+      description: >
+        List available caption style templates. Returns a paginated list of
+        templates that can be used when creating captioned videos.
+      operationId: listCaptionTemplates
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+        - name: limit
+          in: query
+          description: Max number of items to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: after
+          in: query
+          description: Return items strictly after this template ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a paginated list of available caption templates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MACaptionTemplateList'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/videos/captions/templates/{template_id}:
+    get:
+      tags: [Video Captions]
+      summary: Retrieve Caption Template
+      operationId: getCaptionTemplate
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a caption template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MACaptionTemplate'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/audio/text-to-speech/{voice_id}:
+    post:
+      tags: [Audio]
+      summary: Generate Speech from Text
+      description: >
+        Generate speech from text using the specified voice and model.
+        Synchronously generates audio and returns binary data directly.
+        The request blocks until TTS generation is complete.
+      operationId: generateSpeech
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+        - name: voice_id
+          in: path
+          required: true
+          description: Voice ID to use for TTS generation
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TTSRequest'
+      responses:
+        '200':
+          description: Returns the generated audio file as binary data
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/meta/text_overlays:
+    post:
+      tags: [Meta Text Overlays]
+      summary: Create Meta Text Overlay
+      description: >
+        Render static text overlays onto an uploaded video. Upload once and
+        render up to 4 related text variants against the same input video.
+      operationId: createMetaTextOverlay
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateMetaTextOverlayRequest'
+      responses:
+        '200':
+          description: Returns a MetaTextOverlay job object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetaTextOverlay'
+              example:
+                id: d7f76ec6-2500-4d23-a2bc-648f4e904555
+                object: text_overlay
+                status: QUEUED
+                created_at: 1730822400
+                results: []
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /v1/meta/text_overlays/{text_overlay_id}:
+    get:
+      tags: [Meta Text Overlays]
+      summary: Retrieve Meta Text Overlay
+      operationId: getMetaTextOverlay
+      parameters:
+        - $ref: '#/components/parameters/XApiKey'
+        - name: text_overlay_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the MetaTextOverlay job object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetaTextOverlay'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+
+  parameters:
+    XApiKey:
+      name: x-api-key
+      in: header
+      required: true
+      description: API Key for authentication
+      schema:
+        type: string
+
+  responses:
+    ValidationError:
+      description: Validation Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HTTPValidationError'
+
+  schemas:
+    MAVideo:
+      type: object
+      required: [id, status, created_at, video_id]
+      description: >
+        Represents a video object. A video can be created via generation
+        (image+audio) or captioning (adding captions to an existing video).
+      properties:
+        id:
+          type: string
+          description: Video generation job ID
+          example: video_abc123def456
+        object:
+          type: string
+          enum: [video]
+          default: video
+        status:
+          type: string
+          enum: [PROCESSING, COMPLETE, FAILED, CANCELLED]
+          description: Current state of the video
+          example: COMPLETE
+        created_at:
+          type: integer
+          description: When the video was created (unix timestamp)
+          example: 1730822400
+        completed_at:
+          type: integer
+          nullable: true
+          description: When processing completed (unix timestamp)
+          example: 1730822520
+        progress:
+          type: integer
+          nullable: true
+          description: Progress percentage (0-100)
+          example: 100
+        error:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/MAVideoError'
+          description: Error details if status is FAILED
+        model:
+          type: string
+          nullable: true
+          enum: [mirage-video-1-latest]
+          description: Model used for generation (only for source=generation)
+          example: mirage-video-1-latest
+        source_video_id:
+          type: string
+          nullable: true
+          description: The input video that was captioned (only for source=caption)
+          example: video_abc123def456
+        caption_template_id:
+          type: string
+          nullable: true
+          description: Caption style template used (only for source=caption)
+          example: ctpl_123456789abcdefg
+        share_link_url:
+          type: string
+          nullable: true
+          description: Public share link for a completed internal video, when enabled
+          example: https://captions.ai/share/eyJ2Ijox.../share-token
+        video_id:
+          type: string
+          description: "[Deprecated] Use \"id\" instead."
+          deprecated: true
+
+    MAVideoError:
+      type: object
+      required: [code, message]
+      description: Error payload that explains why generation failed, if applicable
+      properties:
+        code:
+          type: string
+          description: Error code
+          example: rate_limit_exceeded
+        message:
+          type: string
+          description: Error message
+          example: Rate limit exceeded. Please try again later.
+
+    MACaptionTemplate:
+      type: object
+      required: [id, name, created_at]
+      description: Represents a caption style template
+      properties:
+        id:
+          type: string
+          description: Unique template identifier
+          example: ctpl_123456789abcdefg
+        object:
+          type: string
+          enum: [caption_template]
+          default: caption_template
+        name:
+          type: string
+          description: Human-readable template name
+          example: Bold White
+        preview_url:
+          type: string
+          nullable: true
+          description: URL to a preview video of the template
+          example: https://captions-cdn.xyz/studio-assets/captions-style-previews/1FA3A381-5DDF-4ECD-936B-63D7CF16DEB0.mp4
+        created_at:
+          type: integer
+          description: When the template was created (unix timestamp)
+          example: 1730000000
+
+    MACaptionTemplateList:
+      type: object
+      required: [data, has_more]
+      description: Paginated list of caption templates
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MACaptionTemplate'
+          description: List of caption templates
+        object:
+          type: string
+          enum: [list]
+          default: list
+        has_more:
+          type: boolean
+          description: Whether there are more templates after this page
+
+    MetaTextOverlay:
+      type: object
+      required: [id, status, created_at]
+      description: Represents a Meta text overlay job.
+      properties:
+        id:
+          type: string
+          description: Text overlay job ID
+        object:
+          type: string
+          enum: [text_overlay]
+          default: text_overlay
+        status:
+          type: string
+          enum: [QUEUED, PROCESSING, COMPLETE, FAILED, CANCELLED]
+          description: Current state of the text overlay job
+        created_at:
+          type: integer
+          description: When the job was created (unix timestamp)
+        completed_at:
+          type: integer
+          nullable: true
+          description: When processing reached a terminal state (unix timestamp)
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MetaTextOverlayResult'
+          description: Ordered per-text render results for this job
+        error:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/MAVideoError'
+          description: Error details if the job failed before itemized completion
+
+    MetaTextOverlayResult:
+      type: object
+      required: [index, text, status]
+      description: Per-text result for a Meta text overlay job.
+      properties:
+        index:
+          type: integer
+          description: Zero-based index matching the input texts order
+        text:
+          type: string
+          description: Input text for this rendered output
+        status:
+          type: string
+          enum: [COMPLETE, FAILED]
+          description: Terminal status for this item
+        video_url:
+          type: string
+          nullable: true
+          description: Resolved output video URL when this item completed successfully
+        error:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/MAVideoError'
+          description: Error details when this item failed
+
+    TTSRequest:
+      type: object
+      required: [text, model]
+      description: Request body for text-to-speech generation
+      properties:
+        text:
+          type: string
+          description: The text to convert to speech
+          example: Hello, welcome to Mirage!
+        model:
+          type: string
+          enum: [mirage-audio-1]
+          description: TTS model to use for generation
+          example: mirage-audio-1
+
+    CreateVideoRequest:
+      type: object
+      required: [image_reference, audio_reference]
+      description: >
+        Request body for creating a new AI video generation job. Requires an
+        image reference (JPEG or PNG) and audio reference (WAV or MP3).
+      properties:
+        image_reference:
+          type: string
+          format: binary
+          description: Image file (JPEG or PNG)
+        audio_reference:
+          type: string
+          format: binary
+          description: Audio file (WAV or MP3)
+        model:
+          type: string
+          enum: [mirage-video-1-latest]
+          default: mirage-video-1-latest
+          description: Model to use for generation
+
+    AddCaptionsRequest:
+      type: object
+      required: [caption_template_id]
+      description: >
+        Request body for adding captions to a video. Provide either a video
+        file upload or an existing video_id, not both.
+      properties:
+        caption_template_id:
+          type: string
+          description: Caption style template ID
+          example: ctpl_yvE0ZnYzEj6ClCD2ee1f
+        video:
+          type: string
+          format: binary
+          nullable: true
+          description: >
+            Video file to caption (MP4, MOV). Must be 9:16 aspect ratio.
+            Max 50 MB. Either video or video_id must be provided.
+        video_id:
+          type: string
+          nullable: true
+          description: >
+            Existing video ID to add captions to. Either video or video_id
+            must be provided.
+
+    CreateMetaTextOverlayRequest:
+      type: object
+      required: [video]
+      description: >
+        Request body for creating a Meta text overlay job. Upload once and
+        render up to 4 related text variants.
+      properties:
+        video:
+          type: string
+          format: binary
+          description: Source video file (MP4 or MOV).
+        texts:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: Ordered text variants to render as static overlays (max 4).
+        items:
+          type: string
+          nullable: true
+          description: >
+            Optional JSON array of item objects. Each item must contain text
+            and may contain style.font, style.size, and style.color.
+        fonts:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: Optional ordered font overrides aligned by index with texts.
+        sizes:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: Optional ordered font size overrides in pixels aligned by index with texts.
+        colors:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: Optional ordered text color overrides (#RRGGBB) aligned by index with texts.
+
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+
+    ValidationError:
+      type: object
+      required: [loc, msg, type]
+      properties:
+        loc:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+        type:
+          type: string

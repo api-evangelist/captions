@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/captions-ai/main/json-schema/captions-ai-creator-job-schema.json",
+  "title": "CreatorJobPollResponse",
+  "description": "Response from polling an AI Creator or AI Ads video generation job. Returns in-progress state or completed video URL.",
+  "type": "object",
+  "properties": {
+    "operationId": {
+      "type": "string",
+      "description": "Unique job identifier returned from a submit endpoint",
+      "examples": ["op_xyz789abc"]
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the completed generated video (present when state=COMPLETE)",
+      "examples": ["https://cdn.captions.ai/videos/op_xyz789abc.mp4"]
+    },
+    "state": {
+      "type": "string",
+      "enum": ["QUEUED", "PROCESSING", "COMPLETE"],
+      "description": "Current processing state of the job"
+    },
+    "progress": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Progress percentage (present while state is QUEUED or PROCESSING)",
+      "examples": [65]
+    }
+  }
+}

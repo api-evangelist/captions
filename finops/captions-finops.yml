@@ -1,0 +1,111 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+provider: Captions
+providerId: captions-ai
+created: '2026-06-12'
+modified: '2026-06-12'
+
+billingModel: hybrid
+billingModelNotes: >
+  Captions uses a hybrid billing model combining subscription tiers (monthly flat-fee plans
+  that include credit allocations) with metered API billing. The Video Captions API is billed
+  directly at $0.15/minute of input video. The AI Creator and AI Ads APIs consume credits from
+  the subscription plan allocation at 1 credit/second of generated video. Enterprise customers
+  receive custom bulk credit pricing.
+
+focusColumns:
+  - BilledCost
+  - UsageQuantity
+  - UsageUnit
+  - ResourceId
+  - ServiceName
+  - SubAccountId
+  - ChargeType
+  - ChargeFrequency
+
+meters:
+  - name: video_captioning_minutes
+    description: Minutes of input video processed by the Add Captions API endpoint
+    unit: minutes
+    unitRate:
+      amount: 0.15
+      currency: USD
+    chargeType: Usage
+    chargeFrequency: usage-based
+    billingRounding: ceil
+    billingRoundingUnit: minute
+    focusMapping:
+      ServiceName: Captions Video Captions API
+      UsageUnit: Minutes
+      ChargeType: Usage
+
+  - name: ai_creator_credits
+    description: Credits consumed by AI Creator video generation at 1 credit per second of output video
+    unit: credits
+    chargeType: Usage
+    chargeFrequency: usage-based
+    notes: Credits are deducted from monthly plan allocation; additional credits purchasable via dashboard
+    focusMapping:
+      ServiceName: Captions AI Creator API
+      UsageUnit: Credits
+      ChargeType: Usage
+
+  - name: ai_ads_credits
+    description: Credits consumed by AI Ads video generation at 1 credit per second of output video
+    unit: credits
+    chargeType: Usage
+    chargeFrequency: usage-based
+    notes: Credits are deducted from monthly plan allocation; additional credits purchasable via dashboard
+    focusMapping:
+      ServiceName: Captions AI Ads API
+      UsageUnit: Credits
+      ChargeType: Usage
+
+  - name: subscription_fee
+    description: Monthly subscription fee covering plan tier and bundled credit allocation
+    unit: months
+    chargeType: Recurring
+    chargeFrequency: monthly
+    tiers:
+      - planName: Max
+        amount: 24.99
+        currency: USD
+        includedCredits: 500
+      - planName: Scale 1x
+        amount: 69.99
+        currency: USD
+        includedCredits: 1400
+      - planName: Scale 2x
+        amount: 139.99
+        currency: USD
+        includedCredits: 2800
+      - planName: Scale 4x
+        amount: 279.99
+        currency: USD
+        includedCredits: 5600
+    focusMapping:
+      ServiceName: Captions Subscription
+      ChargeType: Recurring
+      ChargeFrequency: Monthly
+
+principles:
+  - name: Visibility
+    description: >
+      API credit consumption and video generation costs are visible in the Captions API
+      dashboard at https://desktop.captions.ai/api. Unused credits roll over up to 3x the
+      monthly allowance, providing buffer visibility. Per-minute pricing for captioning allows
+      predictable cost estimation before processing.
+
+  - name: Optimization
+    description: >
+      Optimize AI Creator and AI Ads costs by keeping scripts concise to minimize generated
+      video duration (1 credit/second). Use the /poll endpoint to avoid redundant API calls
+      during job processing. Utilize credit rollover (up to 3 months) to smooth spending.
+      Select the appropriate Scale tier based on monthly video volume to minimize per-credit
+      cost at higher usage levels.
+
+  - name: Accountability
+    description: >
+      Credits are tied to individual API keys linked to organizational accounts. Dashboard
+      provides real-time balance visibility. Enterprise plans include custom seat management
+      and dedicated account oversight for larger teams.

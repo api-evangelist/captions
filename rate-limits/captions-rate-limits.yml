@@ -1,0 +1,69 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+provider: Captions
+providerId: captions-ai
+created: '2026-06-12'
+modified: '2026-06-12'
+
+notes: >
+  Captions/Mirage API documentation does not publicly disclose numeric rate limits as of
+  June 2026. The API uses asynchronous job processing (submit + poll pattern) which naturally
+  throttles throughput. Authentication is via x-api-key header. HTTP 429 is the standard
+  throttle response code. Credit balance acts as the primary usage gate; requests fail if
+  insufficient credits are available.
+
+authentication:
+  method: API Key
+  header: x-api-key
+  keySource: https://desktop.captions.ai/api
+
+throttling:
+  httpStatusCode: 429
+  retryAfter: true
+  retryAfterHeader: Retry-After
+
+limits:
+  - scope: Video Captioning - File Size
+    metric: upload size
+    limit: 50
+    unit: MB
+    timeFrame: per request
+    notes: Maximum file size for video uploads to /v1/videos/captions endpoint
+
+  - scope: AI Creator - Script Length
+    metric: characters
+    limit: 800
+    unit: characters
+    timeFrame: per request
+    notes: Maximum script length for AI Creator and AI Ads video generation
+
+  - scope: AI Creator - Video Duration
+    metric: video duration
+    limit: 60
+    unit: seconds
+    timeFrame: per request
+    notes: Maximum generated video length for AI Creator and AI Ads APIs
+
+  - scope: Video Captioning - Aspect Ratio
+    metric: aspect ratio
+    limit: 9:16
+    unit: aspect ratio
+    timeFrame: per request
+    notes: Uploaded videos must be 9:16 aspect ratio for captioning endpoint
+
+  - scope: List Videos - Pagination
+    metric: items per page
+    limit: 100
+    unit: items
+    timeFrame: per request
+    notes: Maximum limit parameter value for GET /v1/videos pagination; default is 20
+
+  - scope: Credit Balance
+    metric: credits
+    limit: 0
+    unit: credits
+    timeFrame: per request
+    notes: >
+      Requests are rejected if the account has insufficient credits. Credits are consumed at
+      1 credit per second of generated video for AI Creator and AI Ads APIs. Credit balance
+      can be monitored and replenished at https://desktop.captions.ai/api

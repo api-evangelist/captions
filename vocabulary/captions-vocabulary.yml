@@ -1,0 +1,97 @@
+vocabulary:
+  - term: AI Creator
+    definition: >
+      A community avatar or personal AI Twin digital clone used to generate
+      talking-head videos via the Captions AI Creator API. Creators can speak
+      any script in 30+ languages with automatic language detection.
+
+  - term: AI Twin
+    definition: >
+      A personalized AI digital clone created from a user's own likeness,
+      voice, and mannerisms through the Captions platform. AI Twins can be
+      used in the AI Creator API to generate videos that look and sound like
+      the original person.
+
+  - term: AI Ads
+    definition: >
+      UGC-style (User Generated Content) AI advertising videos generated using
+      Captions AI creators. The AI Ads API accepts a script, a creator name,
+      and media assets (images or videos) to produce polished ad content.
+
+  - term: Caption Template
+    definition: >
+      A pre-designed caption style (font, color, animation, position) that can
+      be applied when adding AI captions to a video via the Captions Video
+      Captions API. Templates are identified by a ctpl_* ID.
+
+  - term: Credit
+    definition: >
+      The billing unit for AI Creator and AI Ads API usage. One credit is
+      consumed per second of generated output video. Credits are purchased
+      separately from regular Captions subscriptions.
+
+  - term: operationId
+    definition: >
+      A unique identifier returned by the /submit endpoints of the AI Creator
+      and AI Ads APIs. Used as the polling key with the corresponding /poll
+      endpoint to check job status and retrieve the completed video URL.
+
+  - term: mirage-video-1-latest
+    definition: >
+      The current model identifier for the Mirage Video API. Generates
+      production-grade talking-head video from an image reference and audio
+      file with natural eye contact, gestures, and emotional expression.
+
+  - term: mirage-audio-1
+    definition: >
+      The text-to-speech model identifier used by the Mirage Audio API at
+      /v1/audio/text-to-speech/{voice_id}. Generates WAV audio from text input.
+
+  - term: Meta Text Overlay
+    definition: >
+      A video rendering job that burns static text overlays onto an uploaded
+      source video. Supports up to 4 text variants per uploaded video,
+      with optional font, size, and color overrides per text item.
+
+  - term: video_id
+    definition: >
+      A unique identifier for a video job in the Mirage API, prefixed with
+      "video_". Used to retrieve job status (GET /v1/videos/{video_id}) and
+      download the completed video (GET /v1/videos/{video_id}/content).
+      The legacy field name video_id in response bodies is deprecated in favor
+      of the id field.
+
+  - term: PROCESSING
+    definition: >
+      A video job status indicating the job is actively being processed.
+      Poll the video status endpoint periodically until status changes to
+      COMPLETE, FAILED, or CANCELLED.
+
+  - term: COMPLETE
+    definition: >
+      A terminal video job status indicating the video has been successfully
+      generated. The completed video can be retrieved via the content endpoint
+      or share_link_url.
+
+  - term: caption
+    definition: >
+      Automatically generated text overlay synchronized to speech in a video,
+      applied by the Captions Video Captions API using AI transcription and a
+      chosen caption style template.
+
+  - term: lip-sync dubbing
+    definition: >
+      A Captions platform feature that translates spoken audio in a video to
+      another language and re-syncs the speaker's lip movements to the new
+      audio. Supported in 30+ languages.
+
+  - term: resolution
+    definition: >
+      The output quality of AI Creator and AI Ads generated videos. Options
+      are fhd (1080p) or 4k (2160p). Defaults to 4k.
+
+  - term: x-api-key
+    definition: >
+      The HTTP request header used to authenticate all Captions and Mirage API
+      requests. Obtain an API key from the Captions API Dashboard at
+      https://desktop.captions.ai/api.

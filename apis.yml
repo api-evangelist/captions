@@ -1,17 +1,13 @@
 aid: captions
 name: Captions
-description: >-
-  Captions is an AI video editor and generator built by Mirage, an AI research
-  company headquartered in New York City. The consumer and enterprise apps
-  automate the most time-consuming parts of video production — cutting scenes,
-  adding B-roll, inserting music and sound effects, generating and styling
-  captions, dubbing into 30+ languages, correcting eye contact, and generating
-  entirely new videos from a text prompt or a selfie via AI Avatars, AI Actors,
-  and AI Twins. The Mirage Video API (api.mirage.app) exposes this pipeline to
-  developers: asynchronous AI video generation, adding stylized captions to
-  videos, caption-template discovery, text-to-speech audio, and meta text
-  overlays. Authentication is a simple x-api-key header, keys are minted in the
-  Mirage platform dashboard, and long-running jobs are polled for status.
+description: 'Captions is an AI video editor and generator built by Mirage, an AI research company headquartered
+  in New York City. The consumer and enterprise apps automate the most time-consuming parts of video production
+  — cutting scenes, adding B-roll, inserting music and sound effects, generating and styling captions,
+  dubbing into 30+ languages, correcting eye contact, and generating entirely new videos from a text prompt
+  or a selfie via AI Avatars, AI Actors, and AI Twins. The Mirage Video API (api.mirage.app) exposes this
+  pipeline to developers: asynchronous AI video generation, adding stylized captions to videos, caption-template
+  discovery, text-to-speech audio, and meta text overlays. Authentication is a simple x-api-key header,
+  keys are minted in the Mirage platform dashboard, and long-running jobs are polled for status.'
 url: https://raw.githubusercontent.com/api-evangelist/captions/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -34,7 +30,7 @@ accessModel:
   method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-08'
 image: https://captions.ai/logo256.png
 tags:
 - Company
@@ -191,7 +187,7 @@ common:
 - type: Compliance
   url: https://captions.ai/solutions/enterprise
 - type: OpenAPI
-  url: openapi/captions-mirage-openapi-original.json
+  url: openapi/_original/captions-mirage-openapi-original.json
 - type: LLMsTxt
   url: llms/captions-llms.txt
 - type: Authentication
@@ -216,6 +212,20 @@ common:
   url: agentic-access/captions-agentic-access.yml
 - type: Plans
   url: plans/captions-plans.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/captionsapp
+- type: X
+  url: https://x.com/getcaptionsapp
+- type: ChangeLog
+  url: https://captions.ai/help/whats-new
+- type: RateLimits
+  url: rate-limits/captions-rate-limits.yml
+- type: FinOps
+  url: finops/captions-finops.yml
+- type: Vocabulary
+  url: vocabulary/captions-vocabulary.yml
+- type: JSONLDContext
+  url: json-ld/captions-context.jsonld
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -226,3 +236,5 @@ x-enrichment:
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
+x-merged-from:
+- captions-ai

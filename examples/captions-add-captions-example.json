@@ -1,0 +1,34 @@
+{
+  "title": "Add Captions to a Video",
+  "description": "Example showing how to add AI-generated captions to an existing video ID using the Mirage Video API.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.mirage.app/v1/videos/captions",
+    "headers": {
+      "x-api-key": "mira_yourApiKeyHere",
+      "Content-Type": "multipart/form-data"
+    },
+    "body": {
+      "caption_template_id": "ctpl_yvE0ZnYzEj6ClCD2ee1f",
+      "video_id": "video_abc123def456"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "video_cap789xyz",
+      "object": "video",
+      "status": "PROCESSING",
+      "created_at": 1730822600,
+      "completed_at": null,
+      "progress": 0,
+      "error": null,
+      "model": null,
+      "source_video_id": "video_abc123def456",
+      "caption_template_id": "ctpl_yvE0ZnYzEj6ClCD2ee1f",
+      "share_link_url": null,
+      "video_id": "video_cap789xyz"
+    }
+  },
+  "notes": "Poll GET /v1/videos/{video_id} until status reaches COMPLETE. Billing is $0.15 per minute of input video."
+}
