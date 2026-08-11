@@ -158,6 +158,8 @@ apis:
   - type: Authentication
     url: authentication/captions-authentication.yml
 common:
+- type: Overlay
+  url: overlays/captions-mirage-overlay.yaml
 - type: Portal
   url: https://platform.mirage.app/
 - type: Documentation
