@@ -1,0 +1,635 @@
+{
+  "item": [
+    {
+      "id": "c085108a-cfde-41b8-aab8-e1926af6b57a",
+      "name": "AI Creator",
+      "description": {
+        "content": "Generate talking-head videos using community AI avatars or AI Twins",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "56a1cf53-5ad8-4b65-9b48-eec3a8b2b3f3",
+          "name": "List AI Creators",
+          "request": {
+            "name": "List AI Creators",
+            "description": {
+              "content": "Retrieves a list of AI creators (community avatars and AI Twins) that can be used with the AI Creator API, along with thumbnail image and video preview URLs.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "creator",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "de6bbf22-e6b7-4fa0-ae79-3e39f9e40689",
+              "name": "Returns list of supported creators and thumbnails",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"supportedCreators\": [\n    \"Kate\",\n    \"Alex\",\n    \"Jordan\"\n  ],\n  \"thumbnails\": {\n    \"key_0\": {\n      \"imageUrl\": \"https://cdn.captions.ai/creators/kate/thumb.jpg\",\n      \"videoUrl\": \"https://cdn.captions.ai/creators/kate/preview.mp4\"\n    },\n    \"key_1\": {\n      \"imageUrl\": \"https://cdn.captions.ai/creators/kate/thumb.jpg\",\n      \"videoUrl\": \"https://cdn.captions.ai/creators/kate/preview.mp4\"\n    },\n    \"key_2\": {\n      \"imageUrl\": \"https://cdn.captions.ai/creators/kate/thumb.jpg\",\n      \"videoUrl\": \"https://cdn.captions.ai/creators/kate/preview.mp4\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9bd306eb-da81-4a72-a342-6a00fc164bb9",
+              "name": "Unauthorized — invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "39b9f5f3-c65f-469b-93b2-25416f03f505",
+          "name": "Submit AI Creator Video Job",
+          "request": {
+            "name": "Submit AI Creator Video Job",
+            "description": {
+              "content": "Submit a video generation job using an AI Creator avatar. The script must be 800 characters or fewer and supports 30+ languages with automatic language detection. Videos max out at 1 minute. Usage is billed at 1 credit per second of generated video.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "creator",
+                "submit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"script\": \"<string>\",\n  \"creatorName\": \"Kate\",\n  \"webhookId\": \"<string>\",\n  \"resolution\": \"4k\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "593d84cd-4d4c-4389-b836-471fd326922d",
+              "name": "Returns an operation ID for polling",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Welcome to Captions! Create stunning AI videos in seconds.\",\n  \"creatorName\": \"Kate\",\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34859f28-7680-4222-830b-136622057e57",
+              "name": "Bad Request — missing required fields or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Welcome to Captions! Create stunning AI videos in seconds.\",\n  \"creatorName\": \"Kate\",\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d521d64-8e97-4a14-a363-a8001fa0f733",
+              "name": "Unauthorized — invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Welcome to Captions! Create stunning AI videos in seconds.\",\n  \"creatorName\": \"Kate\",\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b432632-c184-49ca-95c8-fccec0cb63a1",
+              "name": "Too Many Requests — rate limit is 5 requests per minute",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Welcome to Captions! Create stunning AI videos in seconds.\",\n  \"creatorName\": \"Kate\",\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b152629e-c431-4d20-8933-6d30974e8ddf",
+          "name": "Poll AI Creator Video Job",
+          "request": {
+            "name": "Poll AI Creator Video Job",
+            "description": {
+              "content": "Poll the status of an AI Creator video generation job. Returns QUEUED or PROCESSING with a progress value while in-flight, or a completed video URL when done.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "creator",
+                "poll"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b4db8836-1540-454a-b0d6-a6365effe898",
+              "name": "Returns job status and video URL on completion",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"url\": \"https://cdn.captions.ai/videos/op_xyz789abc.mp4\",\n  \"state\": \"COMPLETE\",\n  \"progress\": 65\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21658e3a-c30c-4a47-87fb-931ab832e034",
+              "name": "Bad Request — missing required fields or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "442736e6-bb52-4881-8fc3-27eb653a2b8e",
+              "name": "Unauthorized — invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "creator",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.captions.ai/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c1931139-1643-4c2f-a356-ebfba5dc8a4d",
+    "name": "Captions & AI Ads AI Creator API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for generating AI talking-head videos using community avatars (AI Creator) and UGC-style AI advertising videos (AI Ads). Both APIs are asynchronous: submit a job, then poll for completion. Scripts are limited to 800 characters, supporting 30+ languages with automatic detection. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute per endpoint.\n\n\nContact Support:\n Name: Captions API Support",
+      "type": "text/plain"
+    }
+  }
+}

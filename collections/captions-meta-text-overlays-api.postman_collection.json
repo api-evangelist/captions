@@ -1,0 +1,472 @@
+{
+  "item": [
+    {
+      "id": "9a313f97-6c66-4e30-a615-cda45a0893c3",
+      "name": "Meta Text Overlays",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4c5674da-604a-4237-90e0-deaf2755e5c7",
+          "name": "Create Meta Text Overlay",
+          "request": {
+            "name": "Create Meta Text Overlay",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "meta",
+                "text_overlays"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API Key for authentication",
+                "key": "x-api-key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "video",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Source video file (MP4 or MOV). Upload once and render up to 4 related text variants against the same input video."
+                },
+                {
+                  "key": "texts",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "Ordered text variants to render as static overlays for the uploaded video (max 4)."
+                },
+                {
+                  "key": "items",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Optional JSON array of item objects. Each item must contain text and may contain style.font, style.size, and style.color."
+                },
+                {
+                  "key": "fonts",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "Optional ordered font overrides aligned by index with texts. Blank items mean auto-decide."
+                },
+                {
+                  "key": "sizes",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "Optional ordered font size overrides in pixels aligned by index with texts. Blank items mean auto-decide."
+                },
+                {
+                  "key": "colors",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "Optional ordered text color overrides (#RRGGBB) aligned by index with texts. Blank items mean auto-decide."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "81ec4d4d-f269-4f25-a24b-914fff2abb32",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meta",
+                    "text_overlays"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API Key for authentication",
+                    "key": "x-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source video file (MP4 or MOV). Upload once and render up to 4 related text variants against the same input video.",
+                        "type": "text/plain"
+                      },
+                      "key": "video",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Ordered text variants to render as static overlays for the uploaded video (max 4).",
+                        "type": "text/plain"
+                      },
+                      "key": "texts",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional JSON array of item objects. Each item must contain text and may contain style.font, style.size, and style.color.",
+                        "type": "text/plain"
+                      },
+                      "key": "items",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional ordered font overrides aligned by index with texts. Blank items mean auto-decide.",
+                        "type": "text/plain"
+                      },
+                      "key": "fonts",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional ordered font size overrides in pixels aligned by index with texts. Blank items mean auto-decide.",
+                        "type": "text/plain"
+                      },
+                      "key": "sizes",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional ordered text color overrides (#RRGGBB) aligned by index with texts. Blank items mean auto-decide.",
+                        "type": "text/plain"
+                      },
+                      "key": "colors",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"CANCELLED\",\n  \"created_at\": 2830,\n  \"object\": \"text_overlay\",\n  \"completed_at\": 631,\n  \"results\": [\n    {\n      \"index\": 6608,\n      \"text\": \"string\",\n      \"status\": \"COMPLETE\",\n      \"video_url\": \"string\",\n      \"error\": {\n        \"code\": \"rate_limit_exceeded\",\n        \"message\": \"Rate limit exceeded. Please try again later.\"\n      }\n    },\n    {\n      \"index\": 6007,\n      \"text\": \"string\",\n      \"status\": \"FAILED\",\n      \"video_url\": \"string\",\n      \"error\": {\n        \"code\": \"rate_limit_exceeded\",\n        \"message\": \"Rate limit exceeded. Please try again later.\"\n      }\n    }\n  ],\n  \"error\": {\n    \"code\": \"rate_limit_exceeded\",\n    \"message\": \"Rate limit exceeded. Please try again later.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05ddd6a9-8316-4649-95b8-83494bfdcaae",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meta",
+                    "text_overlays"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API Key for authentication",
+                    "key": "x-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Source video file (MP4 or MOV). Upload once and render up to 4 related text variants against the same input video.",
+                        "type": "text/plain"
+                      },
+                      "key": "video",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Ordered text variants to render as static overlays for the uploaded video (max 4).",
+                        "type": "text/plain"
+                      },
+                      "key": "texts",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional JSON array of item objects. Each item must contain text and may contain style.font, style.size, and style.color.",
+                        "type": "text/plain"
+                      },
+                      "key": "items",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional ordered font overrides aligned by index with texts. Blank items mean auto-decide.",
+                        "type": "text/plain"
+                      },
+                      "key": "fonts",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional ordered font size overrides in pixels aligned by index with texts. Blank items mean auto-decide.",
+                        "type": "text/plain"
+                      },
+                      "key": "sizes",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Optional ordered text color overrides (#RRGGBB) aligned by index with texts. Blank items mean auto-decide.",
+                        "type": "text/plain"
+                      },
+                      "key": "colors",
+                      "value": "[\"<string>\",\"<string>\"]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e37e373-7bf1-407e-9b36-6f74da9b3782",
+          "name": "Retrieve Meta Text Overlay",
+          "request": {
+            "name": "Retrieve Meta Text Overlay",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "meta",
+                "text_overlays",
+                ":text_overlay_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "text_overlay_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API Key for authentication",
+                "key": "x-api-key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1d923e19-65fe-4bbc-bbc5-c95b044d3553",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meta",
+                    "text_overlays",
+                    ":text_overlay_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "text_overlay_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API Key for authentication",
+                    "key": "x-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"CANCELLED\",\n  \"created_at\": 2830,\n  \"object\": \"text_overlay\",\n  \"completed_at\": 631,\n  \"results\": [\n    {\n      \"index\": 6608,\n      \"text\": \"string\",\n      \"status\": \"COMPLETE\",\n      \"video_url\": \"string\",\n      \"error\": {\n        \"code\": \"rate_limit_exceeded\",\n        \"message\": \"Rate limit exceeded. Please try again later.\"\n      }\n    },\n    {\n      \"index\": 6007,\n      \"text\": \"string\",\n      \"status\": \"FAILED\",\n      \"video_url\": \"string\",\n      \"error\": {\n        \"code\": \"rate_limit_exceeded\",\n        \"message\": \"Rate limit exceeded. Please try again later.\"\n      }\n    }\n  ],\n  \"error\": {\n    \"code\": \"rate_limit_exceeded\",\n    \"message\": \"Rate limit exceeded. Please try again later.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b6db005-1598-4e66-9268-18297607b27f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "meta",
+                    "text_overlays",
+                    ":text_overlay_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "text_overlay_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) API Key for authentication",
+                    "key": "x-api-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\",\n      \"input\": {},\n      \"ctx\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "61f30a38-265c-4658-8022-d1b23cc71bc0",
+    "name": "Mirage Video Audio Meta Text Overlays API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for AI-powered video generation",
+      "type": "text/plain"
+    }
+  }
+}

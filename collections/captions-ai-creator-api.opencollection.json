@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Captions & AI Ads AI Creator API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AI Creator",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List AI Creators",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.captions.ai/api/creator/list"
+          },
+          "docs": "Retrieves a list of AI creators (community avatars and AI Twins) that can be used with the AI Creator API, along with thumbnail image and video preview URLs.\n"
+        },
+        {
+          "info": {
+            "name": "Submit AI Creator Video Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.captions.ai/api/creator/submit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a video generation job using an AI Creator avatar. The script must be 800 characters or fewer and supports 30+ languages with automatic language detection. Videos max out at 1 minute. Usage is billed at 1 credit per second of generated video.\n"
+        },
+        {
+          "info": {
+            "name": "Poll AI Creator Video Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.captions.ai/api/creator/poll",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll the status of an AI Creator video generation job. Returns QUEUED or PROCESSING with a progress value while in-flight, or a completed video URL when done.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

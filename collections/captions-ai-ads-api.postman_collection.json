@@ -1,0 +1,511 @@
+{
+  "item": [
+    {
+      "id": "7451d99e-7e2b-41ae-bf71-52fa98ebdcaf",
+      "name": "AI Ads",
+      "description": {
+        "content": "Generate UGC-style AI advertising videos using AI creators",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cc20a49b-e9a0-4a65-9b9f-3c2f4fbaf90e",
+          "name": "Submit AI Ads Video Job",
+          "request": {
+            "name": "Submit AI Ads Video Job",
+            "description": {
+              "content": "Submit a UGC-style AI advertising video generation job. Requires a script (max 800 characters), a creator name, and at least one media URL (JPEG, PNG, MOV, or MP4). Supports up to 10 media URLs. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ads",
+                "submit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"script\": \"<string>\",\n  \"creatorName\": \"<string>\",\n  \"mediaUrls\": [\n    \"<uri>\"\n  ],\n  \"webhookId\": \"<string>\",\n  \"resolution\": \"4k\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ef99ee7d-1c61-48c2-8441-9c409e72a26b",
+              "name": "Returns an operation ID for polling",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ads",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Try our new product — it changes everything!\",\n  \"creatorName\": \"Kate\",\n  \"mediaUrls\": [\n    \"https://example.com/product-image.jpg\"\n  ],\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7b16108-a274-424f-a34e-2b7dc43ffe00",
+              "name": "Bad Request — missing required fields or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ads",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Try our new product — it changes everything!\",\n  \"creatorName\": \"Kate\",\n  \"mediaUrls\": [\n    \"https://example.com/product-image.jpg\"\n  ],\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf32106b-dbad-46cc-8fdf-e8b16ba813bd",
+              "name": "Unauthorized — invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ads",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Try our new product — it changes everything!\",\n  \"creatorName\": \"Kate\",\n  \"mediaUrls\": [\n    \"https://example.com/product-image.jpg\"\n  ],\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6dda7af-d4b2-4b34-9ff4-38651c63b15e",
+              "name": "Too Many Requests — rate limit is 5 requests per minute",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ads",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/html"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"script\": \"Try our new product — it changes everything!\",\n  \"creatorName\": \"Kate\",\n  \"mediaUrls\": [\n    \"https://example.com/product-image.jpg\"\n  ],\n  \"webhookId\": \"wh_abc123\",\n  \"resolution\": \"4k\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/html"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "788a5a64-49f3-46f6-9cfa-e79376e76cbb",
+          "name": "Poll AI Ads Video Job",
+          "request": {
+            "name": "Poll AI Ads Video Job",
+            "description": {
+              "content": "Poll the status of an AI Ads video generation job. Returns QUEUED or PROCESSING with a progress value while in-flight, or a completed video URL and COMPLETE state when done.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ads",
+                "poll"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "871066e8-5aa9-4fbe-9527-f92d910bcd58",
+              "name": "Returns job status and video URL on completion",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ads",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"url\": \"https://cdn.captions.ai/videos/op_xyz789abc.mp4\",\n  \"state\": \"COMPLETE\",\n  \"progress\": 65\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cd5cd42-258d-4f85-8ca8-45dd1003789f",
+              "name": "Bad Request — missing required fields or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ads",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5fa1acc-858b-45be-b8eb-04eb8654e970",
+              "name": "Unauthorized — invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ads",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operationId\": \"op_xyz789abc\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"Unauthorized API key\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.captions.ai/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d218b59f-a919-4f02-b731-ac5000169304",
+    "name": "Captions AI Creator & AI Ads API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for generating AI talking-head videos using community avatars (AI Creator) and UGC-style AI advertising videos (AI Ads). Both APIs are asynchronous: submit a job, then poll for completion. Scripts are limited to 800 characters, supporting 30+ languages with automatic detection. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute per endpoint.\n\n\nContact Support:\n Name: Captions API Support",
+      "type": "text/plain"
+    }
+  }
+}

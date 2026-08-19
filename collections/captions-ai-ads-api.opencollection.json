@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Captions AI Creator & AI Ads API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AI Ads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit AI Ads Video Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.captions.ai/api/ads/submit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a UGC-style AI advertising video generation job. Requires a script (max 800 characters), a creator name, and at least one media URL (JPEG, PNG, MOV, or MP4). Supports up to 10 media URLs. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute.\n"
+        },
+        {
+          "info": {
+            "name": "Poll AI Ads Video Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.captions.ai/api/ads/poll",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Poll the status of an AI Ads video generation job. Returns QUEUED or PROCESSING with a progress value while in-flight, or a completed video URL and COMPLETE state when done.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
