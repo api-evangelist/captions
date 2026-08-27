@@ -175,6 +175,26 @@ apis:
     url: https://captions.ai/help/api-reference
   - type: Authentication
     url: authentication/captions-authentication.yml
+- aid: captions:captions-ai-ads-api
+  name: Captions AI Ads API
+  description: Generate UGC-style AI advertising videos using AI creators
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - AI Ads
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-ai-ads-api-openapi.yml
+- aid: captions:captions-ai-creator-api
+  name: Captions AI Creator API
+  description: Generate talking-head videos using community AI avatars or AI Twins
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - AI Creator
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-ai-creator-api-openapi.yml
 common:
 - type: Overlay
   url: overlays/captions-mirage-overlay.yaml
