@@ -208,6 +208,9 @@ apis:
   - type: OpenAPI
     url: openapi/captions-ai-creator-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/captions-capability-edges.yml
+  name: Captions Business Capability Map
 - type: Overlay
   url: overlays/captions-mirage-overlay.yaml
 - type: Portal

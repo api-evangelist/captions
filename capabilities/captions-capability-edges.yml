@@ -1,0 +1,26 @@
+slug: captions
+provider: Captions
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Video Captions
+  spec_file: captions-video-captions-api-openapi.yml
+  capability_id: BC-3700.60
+  capability_id_l1: BC-3700
+  capability_name: Localisation & Versioning Management
+  confidence: 0.74
+  evidence: POST /v1/videos/captions "Add Captions to a Video"; GET /v1/videos/captions/templates "List
+    Caption Templates"
+  reason: Captioning of finished video is explicitly within Localisation & Versioning Management (subtitling,
+    captioning). Styling templates are stylistic rather than accessibility-compliance driven, so the localisation
+    sub-capability fits better than accessibility compliance.
