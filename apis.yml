@@ -34,11 +34,12 @@ accessModel:
   try_now: true
   public: false
   label: Freemium · Self-serve signup
-  confidence: high
+  confidence: medium
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 specificationVersion: '0.23'
 created: '2026-07-17'
@@ -259,8 +260,9 @@ common:
   url: conformance/captions-conformance.yml
 - type: DomainSecurity
   url: security/captions-domain-security.yml
-- type: MCPServer
+- type: X-MCPServerCandidate
   url: mcp/captions-mcp.yml
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
 - type: AgentSkill
   url: skills/_index.yml
 - type: AgenticAccess
