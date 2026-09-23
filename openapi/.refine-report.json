@@ -1,26 +1,47 @@
 {
   "provider": "captions",
   "sources": [
-    "captions-audio-api-openapi.yml",
-    "captions-health-api-openapi.yml",
-    "captions-internal-api-openapi.yml",
-    "captions-meta-text-overlays-api-openapi.yml",
-    "captions-root-api-openapi.yml",
-    "captions-video-captions-api-openapi.yml",
-    "captions-videos-api-openapi.yml"
+    "_original/captions-creator-ads-openapi.yml",
+    "_original/captions-mirage-openapi-original.json"
   ],
   "outputs": [
+    "captions-ai-ads-api-openapi.yml",
+    "captions-ai-creator-api-openapi.yml",
     "captions-audio-api-openapi.yml",
+    "captions-meta-text-overlays-api-openapi.yml",
+    "captions-video-captions-api-openapi.yml",
+    "captions-videos-api-openapi.yml",
     "captions-health-api-openapi.yml",
     "captions-internal-api-openapi.yml",
-    "captions-meta-text-overlays-api-openapi.yml",
-    "captions-root-api-openapi.yml",
-    "captions-video-captions-api-openapi.yml",
-    "captions-videos-api-openapi.yml"
+    "captions-root-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "captions-creator-ads-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "captions-mirage-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "captions-mirage-openapi-original.json: declared missing tag: Audio",
+    "captions-mirage-openapi-original.json: declared missing tag: Meta Text Overlays",
+    "captions-mirage-openapi-original.json: declared missing tag: Video Captions",
+    "captions-mirage-openapi-original.json: declared missing tag: Videos",
+    "captions-mirage-openapi-original.json: declared missing tag: health",
+    "captions-mirage-openapi-original.json: declared missing tag: internal",
+    "captions-mirage-openapi-original.json: declared missing tag: root",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/captions-mirage-video-openapi.yml: archived document superseded by a larger archived document",
+    "captions-ai-ads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-ai-creator-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-audio-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-internal-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-meta-text-overlays-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-root-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-video-captions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "captions-videos-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

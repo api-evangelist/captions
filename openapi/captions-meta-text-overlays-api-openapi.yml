@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Mirage Video Audio Meta Text Overlays API
+  title: Mirage Video Meta Text Overlays API
   description: API for AI-powered video generation
   version: 0.0.1
 tags:
@@ -102,6 +102,55 @@ components:
       - msg
       - type
       title: ValidationError
+    Body_create_meta_text_overlay_v1_meta_text_overlays_post:
+      properties:
+        video:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Video
+          description: Source video file (MP4 or MOV). Upload once and render up to 4 related text variants against the same input video.
+        texts:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Texts
+          description: Ordered text variants to render as static overlays for the uploaded video (max 4).
+        items:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Items
+          description: Optional JSON array of item objects. Each item must contain text and may contain style.font, style.size, and style.color.
+        fonts:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Fonts
+          description: Optional ordered font overrides aligned by index with texts. Blank items mean auto-decide.
+        sizes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Sizes
+          description: Optional ordered font size overrides in pixels aligned by index with texts. Blank items mean auto-decide.
+        colors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Colors
+          description: Optional ordered text color overrides (#RRGGBB) aligned by index with texts. Blank items mean auto-decide.
+      type: object
+      required:
+      - video
+      title: Body_create_meta_text_overlay_v1_meta_text_overlays_post
     MAVideoError:
       properties:
         code:
@@ -122,15 +171,41 @@ components:
       - message
       title: MAVideoError
       description: Error payload that explains why generation failed, if applicable
-    HTTPValidationError:
+    MetaTextOverlayResult:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        index:
+          type: integer
+          title: Index
+          description: Zero-based index matching the input texts order
+        text:
+          type: string
+          title: Text
+          description: Input text for this rendered output
+        status:
+          type: string
+          enum:
+          - COMPLETE
+          - FAILED
+          title: Status
+          description: Terminal status for this item
+        video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Video Url
+          description: Resolved output video URL when this item completed successfully
+        error:
+          anyOf:
+          - $ref: '#/components/schemas/MAVideoError'
+          - type: 'null'
+          description: Error details when this item failed
       type: object
-      title: HTTPValidationError
+      required:
+      - index
+      - text
+      - status
+      title: MetaTextOverlayResult
+      description: Per-text result for a Meta text overlay job.
     MetaTextOverlay:
       properties:
         id:
@@ -186,87 +261,12 @@ components:
         object: text_overlay
         results: []
         status: QUEUED
-    Body_create_meta_text_overlay_v1_meta_text_overlays_post:
+    HTTPValidationError:
       properties:
-        video:
-          type: string
-          contentMediaType: application/octet-stream
-          title: Video
-          description: Source video file (MP4 or MOV). Upload once and render up to 4 related text variants against the same input video.
-        texts:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Texts
-          description: Ordered text variants to render as static overlays for the uploaded video (max 4).
-        items:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Items
-          description: Optional JSON array of item objects. Each item must contain text and may contain style.font, style.size, and style.color.
-        fonts:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Fonts
-          description: Optional ordered font overrides aligned by index with texts. Blank items mean auto-decide.
-        sizes:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Sizes
-          description: Optional ordered font size overrides in pixels aligned by index with texts. Blank items mean auto-decide.
-        colors:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Colors
-          description: Optional ordered text color overrides (#RRGGBB) aligned by index with texts. Blank items mean auto-decide.
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - video
-      title: Body_create_meta_text_overlay_v1_meta_text_overlays_post
-    MetaTextOverlayResult:
-      properties:
-        index:
-          type: integer
-          title: Index
-          description: Zero-based index matching the input texts order
-        text:
-          type: string
-          title: Text
-          description: Input text for this rendered output
-        status:
-          type: string
-          enum:
-          - COMPLETE
-          - FAILED
-          title: Status
-          description: Terminal status for this item
-        video_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Video Url
-          description: Resolved output video URL when this item completed successfully
-        error:
-          anyOf:
-          - $ref: '#/components/schemas/MAVideoError'
-          - type: 'null'
-          description: Error details when this item failed
-      type: object
-      required:
-      - index
-      - text
-      - status
-      title: MetaTextOverlayResult
-      description: Per-text result for a Meta text overlay job.
+      title: HTTPValidationError

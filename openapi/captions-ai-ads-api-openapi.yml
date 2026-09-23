@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Captions AI Creator & AI Ads API
-  description: 'REST API for generating AI talking-head videos using community avatars (AI Creator) and UGC-style AI advertising videos (AI Ads). Both APIs are asynchronous: submit a job, then poll for completion. Scripts are limited to 800 characters, supporting 30+ languages with automatic detection. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute per endpoint.
-
-    '
+  title: Captions AI Creator AI Ads API
+  description: 'REST API for generating AI talking-head videos using community avatars (AI Creator) and UGC-style AI advertising videos (AI Ads). Both APIs are asynchronous: submit a job, then poll for completion. Scripts are limited to 800 characters, supporting 30+ languages with automatic detection. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute per endpoint.'
   version: '1.0'
   contact:
     name: Captions API Support
@@ -22,9 +20,7 @@ paths:
       tags:
       - AI Ads
       summary: Submit AI Ads Video Job
-      description: 'Submit a UGC-style AI advertising video generation job. Requires a script (max 800 characters), a creator name, and at least one media URL (JPEG, PNG, MOV, or MP4). Supports up to 10 media URLs. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute.
-
-        '
+      description: Submit a UGC-style AI advertising video generation job. Requires a script (max 800 characters), a creator name, and at least one media URL (JPEG, PNG, MOV, or MP4). Supports up to 10 media URLs. Usage is billed at 1 credit per second of generated video. Rate limit is 5 requests per minute.
       operationId: submitAdsJob
       requestBody:
         required: true
@@ -50,9 +46,7 @@ paths:
       tags:
       - AI Ads
       summary: Poll AI Ads Video Job
-      description: 'Poll the status of an AI Ads video generation job. Returns QUEUED or PROCESSING with a progress value while in-flight, or a completed video URL and COMPLETE state when done.
-
-        '
+      description: Poll the status of an AI Ads video generation job. Returns QUEUED or PROCESSING with a progress value while in-flight, or a completed video URL and COMPLETE state when done.
       operationId: pollAdsJob
       requestBody:
         required: true
@@ -125,14 +119,6 @@ components:
           type: string
           description: The identifier for the video generation request to check
           example: op_xyz789abc
-    ErrorResponse:
-      type: object
-      description: Error response body
-      properties:
-        detail:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized API key
     SubmitResponse:
       type: object
       description: Response from a job submission containing the operation ID
@@ -163,6 +149,14 @@ components:
           type: number
           description: Progress indicator (present while in-flight)
           example: 65
+    ErrorResponse:
+      type: object
+      description: Error response body
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized API key
   responses:
     RateLimited:
       description: Too Many Requests — rate limit is 5 requests per minute
@@ -170,14 +164,14 @@ components:
         text/html:
           schema:
             type: string
-    Unauthorized:
-      description: Unauthorized — invalid or missing API key
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
+    Unauthorized:
+      description: Unauthorized — invalid or missing API key
       content:
         application/json:
           schema:

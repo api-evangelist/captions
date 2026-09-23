@@ -1,0 +1,26 @@
+# Front Door AI Index — captions — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: captions
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: captions.ai
+  final_host: captions.ai
+  ownership: own
+  owner: captions
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 24
+  host_score: 24
+  density: 26.67
+  words: 900
+  tiers:
+    agentic: 3
+    core: 21
+    model: 0
+  ambiguous: 0
+  top_terms:
+    AI: 21
+    prompts: 3
