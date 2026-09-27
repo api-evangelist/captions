@@ -67,6 +67,54 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: Error response body
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized API key
+    PollResponse:
+      type: object
+      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
+
+        '
+      properties:
+        url:
+          type: string
+          description: URL to the generated video (present when state=COMPLETE)
+          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
+        state:
+          type: string
+          enum:
+          - QUEUED
+          - PROCESSING
+          - COMPLETE
+          description: Current state of the job
+          example: COMPLETE
+        progress:
+          type: number
+          description: Progress indicator (present while in-flight)
+          example: 65
+    SubmitResponse:
+      type: object
+      description: Response from a job submission containing the operation ID
+      properties:
+        operationId:
+          type: string
+          description: Unique identifier for the submitted job; use with poll endpoints
+          example: op_xyz789abc
+    PollRequest:
+      type: object
+      required:
+      - operationId
+      description: Request body for polling a video generation job
+      properties:
+        operationId:
+          type: string
+          description: The identifier for the video generation request to check
+          example: op_xyz789abc
     AdsSubmitRequest:
       type: object
       required:
@@ -109,55 +157,13 @@ components:
           - 4k
           default: 4k
           description: Output video resolution
-    PollRequest:
-      type: object
-      required:
-      - operationId
-      description: Request body for polling a video generation job
-      properties:
-        operationId:
-          type: string
-          description: The identifier for the video generation request to check
-          example: op_xyz789abc
-    SubmitResponse:
-      type: object
-      description: Response from a job submission containing the operation ID
-      properties:
-        operationId:
-          type: string
-          description: Unique identifier for the submitted job; use with poll endpoints
-          example: op_xyz789abc
-    PollResponse:
-      type: object
-      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
-
-        '
-      properties:
-        url:
-          type: string
-          description: URL to the generated video (present when state=COMPLETE)
-          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
-        state:
-          type: string
-          enum:
-          - QUEUED
-          - PROCESSING
-          - COMPLETE
-          description: Current state of the job
-          example: COMPLETE
-        progress:
-          type: number
-          description: Progress indicator (present while in-flight)
-          example: 65
-    ErrorResponse:
-      type: object
-      description: Error response body
-      properties:
-        detail:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized API key
   responses:
+    Unauthorized:
+      description: Unauthorized — invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     RateLimited:
       description: Too Many Requests — rate limit is 5 requests per minute
       content:
@@ -166,12 +172,6 @@ components:
             type: string
     BadRequest:
       description: Bad Request — missing required fields or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized — invalid or missing API key
       content:
         application/json:
           schema:

@@ -87,7 +87,7 @@ apis:
   - type: Authentication
     url: authentication/captions-authentication.yml
 - aid: captions:captions-health-api
-  name: Captions health API
+  name: Captions Health API
   description: The health API from Captions — 1 operation(s) for health.
   humanURL: https://captions.ai/help/api-reference
   baseURL: https://api.mirage.app
@@ -105,7 +105,7 @@ apis:
   - type: Authentication
     url: authentication/captions-authentication.yml
 - aid: captions:captions-internal-api
-  name: Captions internal API
+  name: Captions Internal API
   description: The internal API from Captions — 8 operation(s) for internal.
   humanURL: https://captions.ai/help/api-reference
   baseURL: https://api.mirage.app
@@ -139,7 +139,7 @@ apis:
   - type: Authentication
     url: authentication/captions-authentication.yml
 - aid: captions:captions-root-api
-  name: Captions root API
+  name: Captions Root API
   description: The root API from Captions — 1 operation(s) for root.
   humanURL: https://captions.ai/help/api-reference
   baseURL: https://api.mirage.app
