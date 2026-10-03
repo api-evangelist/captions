@@ -67,14 +67,16 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    ErrorResponse:
+    PollRequest:
       type: object
-      description: Error response body
+      required:
+      - operationId
+      description: Request body for polling a video generation job
       properties:
-        detail:
+        operationId:
           type: string
-          description: Human-readable error message
-          example: Unauthorized API key
+          description: The identifier for the video generation request to check
+          example: op_xyz789abc
     PollResponse:
       type: object
       description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
@@ -105,16 +107,14 @@ components:
           type: string
           description: Unique identifier for the submitted job; use with poll endpoints
           example: op_xyz789abc
-    PollRequest:
+    ErrorResponse:
       type: object
-      required:
-      - operationId
-      description: Request body for polling a video generation job
+      description: Error response body
       properties:
-        operationId:
+        detail:
           type: string
-          description: The identifier for the video generation request to check
-          example: op_xyz789abc
+          description: Human-readable error message
+          example: Unauthorized API key
     AdsSubmitRequest:
       type: object
       required:
@@ -158,6 +158,12 @@ components:
           default: 4k
           description: Output video resolution
   responses:
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Unauthorized — invalid or missing API key
       content:
@@ -170,12 +176,6 @@ components:
         text/html:
           schema:
             type: string
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

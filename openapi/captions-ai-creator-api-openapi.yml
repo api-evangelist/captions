@@ -83,14 +83,57 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    ErrorResponse:
+    CreatorThumbnail:
       type: object
-      description: Error response body
+      description: Thumbnail assets for an AI creator
       properties:
-        detail:
+        imageUrl:
           type: string
-          description: Human-readable error message
-          example: Unauthorized API key
+          description: Static thumbnail image URL
+          example: https://cdn.captions.ai/creators/kate/thumb.jpg
+        videoUrl:
+          type: string
+          description: Short preview video URL
+          example: https://cdn.captions.ai/creators/kate/preview.mp4
+    PollRequest:
+      type: object
+      required:
+      - operationId
+      description: Request body for polling a video generation job
+      properties:
+        operationId:
+          type: string
+          description: The identifier for the video generation request to check
+          example: op_xyz789abc
+    CreatorSubmitRequest:
+      type: object
+      required:
+      - script
+      description: 'Request body for submitting an AI Creator video generation job.
+
+        '
+      properties:
+        script:
+          type: string
+          maxLength: 800
+          description: Script for the AI Creator (max 800 characters)
+          example: Welcome to Captions! Create stunning AI videos in seconds.
+        creatorName:
+          type: string
+          description: AI Creator name. Defaults to Kate if not specified.
+          default: Kate
+          example: Kate
+        webhookId:
+          type: string
+          description: Registered webhook identifier for completion notification
+          example: wh_abc123
+        resolution:
+          type: string
+          enum:
+          - fhd
+          - 4k
+          default: 4k
+          description: Output video resolution
     CreatorListResponse:
       type: object
       description: List of available AI creators with thumbnail assets
@@ -139,58 +182,21 @@ components:
           type: number
           description: Progress indicator (present while in-flight)
           example: 65
-    PollRequest:
+    ErrorResponse:
       type: object
-      required:
-      - operationId
-      description: Request body for polling a video generation job
+      description: Error response body
       properties:
-        operationId:
+        detail:
           type: string
-          description: The identifier for the video generation request to check
-          example: op_xyz789abc
-    CreatorThumbnail:
-      type: object
-      description: Thumbnail assets for an AI creator
-      properties:
-        imageUrl:
-          type: string
-          description: Static thumbnail image URL
-          example: https://cdn.captions.ai/creators/kate/thumb.jpg
-        videoUrl:
-          type: string
-          description: Short preview video URL
-          example: https://cdn.captions.ai/creators/kate/preview.mp4
-    CreatorSubmitRequest:
-      type: object
-      required:
-      - script
-      description: 'Request body for submitting an AI Creator video generation job.
-
-        '
-      properties:
-        script:
-          type: string
-          maxLength: 800
-          description: Script for the AI Creator (max 800 characters)
-          example: Welcome to Captions! Create stunning AI videos in seconds.
-        creatorName:
-          type: string
-          description: AI Creator name. Defaults to Kate if not specified.
-          default: Kate
-          example: Kate
-        webhookId:
-          type: string
-          description: Registered webhook identifier for completion notification
-          example: wh_abc123
-        resolution:
-          type: string
-          enum:
-          - fhd
-          - 4k
-          default: 4k
-          description: Output video resolution
+          description: Human-readable error message
+          example: Unauthorized API key
   responses:
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Unauthorized — invalid or missing API key
       content:
@@ -203,12 +209,6 @@ components:
         text/html:
           schema:
             type: string
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
