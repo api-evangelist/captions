@@ -76,61 +76,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MAVideoError:
-      properties:
-        code:
-          type: string
-          title: Code
-          description: Error code
-          examples:
-          - rate_limit_exceeded
-        message:
-          type: string
-          title: Message
-          description: Error message
-          examples:
-          - Rate limit exceeded. Please try again later.
-      type: object
-      required:
-      - code
-      - message
-      title: MAVideoError
-      description: Error payload that explains why generation failed, if applicable
-    MetaTextOverlayResult:
-      properties:
-        index:
-          type: integer
-          title: Index
-          description: Zero-based index matching the input texts order
-        text:
-          type: string
-          title: Text
-          description: Input text for this rendered output
-        status:
-          type: string
-          enum:
-          - COMPLETE
-          - FAILED
-          title: Status
-          description: Terminal status for this item
-        video_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Video Url
-          description: Resolved output video URL when this item completed successfully
-        error:
-          anyOf:
-          - $ref: '#/components/schemas/MAVideoError'
-          - type: 'null'
-          description: Error details when this item failed
-      type: object
-      required:
-      - index
-      - text
-      - status
-      title: MetaTextOverlayResult
-      description: Per-text result for a Meta text overlay job.
     MetaTextOverlay:
       properties:
         id:
@@ -186,6 +131,50 @@ components:
         object: text_overlay
         results: []
         status: QUEUED
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MetaTextOverlayResult:
+      properties:
+        index:
+          type: integer
+          title: Index
+          description: Zero-based index matching the input texts order
+        text:
+          type: string
+          title: Text
+          description: Input text for this rendered output
+        status:
+          type: string
+          enum:
+          - COMPLETE
+          - FAILED
+          title: Status
+          description: Terminal status for this item
+        video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Video Url
+          description: Resolved output video URL when this item completed successfully
+        error:
+          anyOf:
+          - $ref: '#/components/schemas/MAVideoError'
+          - type: 'null'
+          description: Error details when this item failed
+      type: object
+      required:
+      - index
+      - text
+      - status
+      title: MetaTextOverlayResult
+      description: Per-text result for a Meta text overlay job.
     Body_create_meta_text_overlay_v1_meta_text_overlays_post:
       properties:
         video:
@@ -235,6 +224,26 @@ components:
       required:
       - video
       title: Body_create_meta_text_overlay_v1_meta_text_overlays_post
+    MAVideoError:
+      properties:
+        code:
+          type: string
+          title: Code
+          description: Error code
+          examples:
+          - rate_limit_exceeded
+        message:
+          type: string
+          title: Message
+          description: Error message
+          examples:
+          - Rate limit exceeded. Please try again later.
+      type: object
+      required:
+      - code
+      - message
+      title: MAVideoError
+      description: Error payload that explains why generation failed, if applicable
     ValidationError:
       properties:
         loc:
@@ -261,12 +270,3 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

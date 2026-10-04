@@ -82,29 +82,26 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    RateLimited:
+      description: Too Many Requests — rate limit is 5 requests per minute
+      content:
+        text/html:
+          schema:
+            type: string
+    Unauthorized:
+      description: Unauthorized — invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    CreatorThumbnail:
-      type: object
-      description: Thumbnail assets for an AI creator
-      properties:
-        imageUrl:
-          type: string
-          description: Static thumbnail image URL
-          example: https://cdn.captions.ai/creators/kate/thumb.jpg
-        videoUrl:
-          type: string
-          description: Short preview video URL
-          example: https://cdn.captions.ai/creators/kate/preview.mp4
-    PollRequest:
-      type: object
-      required:
-      - operationId
-      description: Request body for polling a video generation job
-      properties:
-        operationId:
-          type: string
-          description: The identifier for the video generation request to check
-          example: op_xyz789abc
     CreatorSubmitRequest:
       type: object
       required:
@@ -134,32 +131,6 @@ components:
           - 4k
           default: 4k
           description: Output video resolution
-    CreatorListResponse:
-      type: object
-      description: List of available AI creators with thumbnail assets
-      properties:
-        supportedCreators:
-          type: array
-          items:
-            type: string
-          description: List of available creator names
-          example:
-          - Kate
-          - Alex
-          - Jordan
-        thumbnails:
-          type: object
-          description: Map of creator name to thumbnail URLs
-          additionalProperties:
-            $ref: '#/components/schemas/CreatorThumbnail'
-    SubmitResponse:
-      type: object
-      description: Response from a job submission containing the operation ID
-      properties:
-        operationId:
-          type: string
-          description: Unique identifier for the submitted job; use with poll endpoints
-          example: op_xyz789abc
     PollResponse:
       type: object
       description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
@@ -182,6 +153,32 @@ components:
           type: number
           description: Progress indicator (present while in-flight)
           example: 65
+    SubmitResponse:
+      type: object
+      description: Response from a job submission containing the operation ID
+      properties:
+        operationId:
+          type: string
+          description: Unique identifier for the submitted job; use with poll endpoints
+          example: op_xyz789abc
+    CreatorListResponse:
+      type: object
+      description: List of available AI creators with thumbnail assets
+      properties:
+        supportedCreators:
+          type: array
+          items:
+            type: string
+          description: List of available creator names
+          example:
+          - Kate
+          - Alex
+          - Jordan
+        thumbnails:
+          type: object
+          description: Map of creator name to thumbnail URLs
+          additionalProperties:
+            $ref: '#/components/schemas/CreatorThumbnail'
     ErrorResponse:
       type: object
       description: Error response body
@@ -190,25 +187,28 @@ components:
           type: string
           description: Human-readable error message
           example: Unauthorized API key
-  responses:
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized — invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Too Many Requests — rate limit is 5 requests per minute
-      content:
-        text/html:
-          schema:
-            type: string
+    PollRequest:
+      type: object
+      required:
+      - operationId
+      description: Request body for polling a video generation job
+      properties:
+        operationId:
+          type: string
+          description: The identifier for the video generation request to check
+          example: op_xyz789abc
+    CreatorThumbnail:
+      type: object
+      description: Thumbnail assets for an AI creator
+      properties:
+        imageUrl:
+          type: string
+          description: Static thumbnail image URL
+          example: https://cdn.captions.ai/creators/kate/thumb.jpg
+        videoUrl:
+          type: string
+          description: Short preview video URL
+          example: https://cdn.captions.ai/creators/kate/preview.mp4
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
