@@ -45,3 +45,78 @@ plans:
     - SOC 2 compliance
     - Role-based permissions, custom-branded templates
     - Full commercial rights
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  - subscription
+  units: []
+  plans:
+  - name: Free
+    access: free
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Max
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Scale 1x
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Scale 2x
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Scale 4x
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: enterprise
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Pro
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Max
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Scale
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
