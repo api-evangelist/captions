@@ -82,26 +82,29 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    RateLimited:
-      description: Too Many Requests — rate limit is 5 requests per minute
-      content:
-        text/html:
-          schema:
-            type: string
-    Unauthorized:
-      description: Unauthorized — invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    PollResponse:
+      type: object
+      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
+
+        '
+      properties:
+        url:
+          type: string
+          description: URL to the generated video (present when state=COMPLETE)
+          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
+        state:
+          type: string
+          enum:
+          - QUEUED
+          - PROCESSING
+          - COMPLETE
+          description: Current state of the job
+          example: COMPLETE
+        progress:
+          type: number
+          description: Progress indicator (present while in-flight)
+          example: 65
     CreatorSubmitRequest:
       type: object
       required:
@@ -131,36 +134,18 @@ components:
           - 4k
           default: 4k
           description: Output video resolution
-    PollResponse:
+    CreatorThumbnail:
       type: object
-      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
-
-        '
+      description: Thumbnail assets for an AI creator
       properties:
-        url:
+        imageUrl:
           type: string
-          description: URL to the generated video (present when state=COMPLETE)
-          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
-        state:
+          description: Static thumbnail image URL
+          example: https://cdn.captions.ai/creators/kate/thumb.jpg
+        videoUrl:
           type: string
-          enum:
-          - QUEUED
-          - PROCESSING
-          - COMPLETE
-          description: Current state of the job
-          example: COMPLETE
-        progress:
-          type: number
-          description: Progress indicator (present while in-flight)
-          example: 65
-    SubmitResponse:
-      type: object
-      description: Response from a job submission containing the operation ID
-      properties:
-        operationId:
-          type: string
-          description: Unique identifier for the submitted job; use with poll endpoints
-          example: op_xyz789abc
+          description: Short preview video URL
+          example: https://cdn.captions.ai/creators/kate/preview.mp4
     CreatorListResponse:
       type: object
       description: List of available AI creators with thumbnail assets
@@ -197,18 +182,33 @@ components:
           type: string
           description: The identifier for the video generation request to check
           example: op_xyz789abc
-    CreatorThumbnail:
+    SubmitResponse:
       type: object
-      description: Thumbnail assets for an AI creator
+      description: Response from a job submission containing the operation ID
       properties:
-        imageUrl:
+        operationId:
           type: string
-          description: Static thumbnail image URL
-          example: https://cdn.captions.ai/creators/kate/thumb.jpg
-        videoUrl:
-          type: string
-          description: Short preview video URL
-          example: https://cdn.captions.ai/creators/kate/preview.mp4
+          description: Unique identifier for the submitted job; use with poll endpoints
+          example: op_xyz789abc
+  responses:
+    RateLimited:
+      description: Too Many Requests — rate limit is 5 requests per minute
+      content:
+        text/html:
+          schema:
+            type: string
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

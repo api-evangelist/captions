@@ -76,105 +76,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MetaTextOverlay:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: Text overlay job ID
-        object:
-          type: string
-          const: text_overlay
-          title: Object
-          default: text_overlay
-        status:
-          type: string
-          enum:
-          - QUEUED
-          - PROCESSING
-          - COMPLETE
-          - FAILED
-          - CANCELLED
-          title: Status
-          description: Current state of the text overlay job
-        created_at:
-          type: integer
-          title: Created At
-          description: When the job was created (unix timestamp)
-        completed_at:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Completed At
-          description: When processing reached a terminal state (unix timestamp)
-        results:
-          items:
-            $ref: '#/components/schemas/MetaTextOverlayResult'
-          type: array
-          title: Results
-          description: Ordered per-text render results for this job
-        error:
-          anyOf:
-          - $ref: '#/components/schemas/MAVideoError'
-          - type: 'null'
-          description: Error details if the job failed before itemized completion
-      type: object
-      required:
-      - id
-      - status
-      - created_at
-      title: MetaTextOverlay
-      description: Represents a Meta text overlay job.
-      examples:
-      - created_at: 1730822400
-        id: d7f76ec6-2500-4d23-a2bc-648f4e904555
-        object: text_overlay
-        results: []
-        status: QUEUED
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MetaTextOverlayResult:
-      properties:
-        index:
-          type: integer
-          title: Index
-          description: Zero-based index matching the input texts order
-        text:
-          type: string
-          title: Text
-          description: Input text for this rendered output
-        status:
-          type: string
-          enum:
-          - COMPLETE
-          - FAILED
-          title: Status
-          description: Terminal status for this item
-        video_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Video Url
-          description: Resolved output video URL when this item completed successfully
-        error:
-          anyOf:
-          - $ref: '#/components/schemas/MAVideoError'
-          - type: 'null'
-          description: Error details when this item failed
-      type: object
-      required:
-      - index
-      - text
-      - status
-      title: MetaTextOverlayResult
-      description: Per-text result for a Meta text overlay job.
     Body_create_meta_text_overlay_v1_meta_text_overlays_post:
       properties:
         video:
@@ -244,6 +145,105 @@ components:
       - message
       title: MAVideoError
       description: Error payload that explains why generation failed, if applicable
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MetaTextOverlay:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Text overlay job ID
+        object:
+          type: string
+          const: text_overlay
+          title: Object
+          default: text_overlay
+        status:
+          type: string
+          enum:
+          - QUEUED
+          - PROCESSING
+          - COMPLETE
+          - FAILED
+          - CANCELLED
+          title: Status
+          description: Current state of the text overlay job
+        created_at:
+          type: integer
+          title: Created At
+          description: When the job was created (unix timestamp)
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+          description: When processing reached a terminal state (unix timestamp)
+        results:
+          items:
+            $ref: '#/components/schemas/MetaTextOverlayResult'
+          type: array
+          title: Results
+          description: Ordered per-text render results for this job
+        error:
+          anyOf:
+          - $ref: '#/components/schemas/MAVideoError'
+          - type: 'null'
+          description: Error details if the job failed before itemized completion
+      type: object
+      required:
+      - id
+      - status
+      - created_at
+      title: MetaTextOverlay
+      description: Represents a Meta text overlay job.
+      examples:
+      - created_at: 1730822400
+        id: d7f76ec6-2500-4d23-a2bc-648f4e904555
+        object: text_overlay
+        results: []
+        status: QUEUED
+    MetaTextOverlayResult:
+      properties:
+        index:
+          type: integer
+          title: Index
+          description: Zero-based index matching the input texts order
+        text:
+          type: string
+          title: Text
+          description: Input text for this rendered output
+        status:
+          type: string
+          enum:
+          - COMPLETE
+          - FAILED
+          title: Status
+          description: Terminal status for this item
+        video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Video Url
+          description: Resolved output video URL when this item completed successfully
+        error:
+          anyOf:
+          - $ref: '#/components/schemas/MAVideoError'
+          - type: 'null'
+          description: Error details when this item failed
+      type: object
+      required:
+      - index
+      - text
+      - status
+      title: MetaTextOverlayResult
+      description: Per-text result for a Meta text overlay job.
     ValidationError:
       properties:
         loc:

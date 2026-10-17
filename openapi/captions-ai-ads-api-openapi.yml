@@ -66,25 +66,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    RateLimited:
-      description: Too Many Requests — rate limit is 5 requests per minute
-      content:
-        text/html:
-          schema:
-            type: string
-    Unauthorized:
-      description: Unauthorized — invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     PollResponse:
       type: object
@@ -108,14 +89,6 @@ components:
           type: number
           description: Progress indicator (present while in-flight)
           example: 65
-    SubmitResponse:
-      type: object
-      description: Response from a job submission containing the operation ID
-      properties:
-        operationId:
-          type: string
-          description: Unique identifier for the submitted job; use with poll endpoints
-          example: op_xyz789abc
     AdsSubmitRequest:
       type: object
       required:
@@ -176,6 +149,33 @@ components:
           type: string
           description: The identifier for the video generation request to check
           example: op_xyz789abc
+    SubmitResponse:
+      type: object
+      description: Response from a job submission containing the operation ID
+      properties:
+        operationId:
+          type: string
+          description: Unique identifier for the submitted job; use with poll endpoints
+          example: op_xyz789abc
+  responses:
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Too Many Requests — rate limit is 5 requests per minute
+      content:
+        text/html:
+          schema:
+            type: string
+    Unauthorized:
+      description: Unauthorized — invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
