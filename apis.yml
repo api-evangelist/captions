@@ -210,6 +210,36 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/captions-ai-creator-api-openapi.yml
+- aid: captions:captions-catalog-api
+  name: Captions Catalog API
+  description: The Catalog API from Captions — 2 operation(s) for catalog.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - Catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-catalog-api-openapi.yml
+- aid: captions:captions-internal-fal-api
+  name: Captions Internal Fal API
+  description: The internal-fal API from Captions — 5 operation(s) for internal-fal.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - internal-fal
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-internal-fal-api-openapi.yml
+- aid: captions:captions-videos-v2-api
+  name: Captions Videos v2 API
+  description: The Videos v2 API from Captions — 2 operation(s) for videos v2.
+  humanURL: https://captions.ai/help/api-reference
+  baseURL: https://api.mirage.app
+  tags:
+  - Videos v2
+  properties:
+  - type: OpenAPI
+    url: openapi/captions-videos-v2-api-openapi.yml
 common:
 - type: CapabilityMap
   url: capabilities/captions-capability-edges.yml

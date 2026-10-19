@@ -67,28 +67,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    PollResponse:
-      type: object
-      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
-
-        '
-      properties:
-        url:
-          type: string
-          description: URL to the generated video (present when state=COMPLETE)
-          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
-        state:
-          type: string
-          enum:
-          - QUEUED
-          - PROCESSING
-          - COMPLETE
-          description: Current state of the job
-          example: COMPLETE
-        progress:
-          type: number
-          description: Progress indicator (present while in-flight)
-          example: 65
     AdsSubmitRequest:
       type: object
       required:
@@ -139,6 +117,14 @@ components:
           type: string
           description: Human-readable error message
           example: Unauthorized API key
+    SubmitResponse:
+      type: object
+      description: Response from a job submission containing the operation ID
+      properties:
+        operationId:
+          type: string
+          description: Unique identifier for the submitted job; use with poll endpoints
+          example: op_xyz789abc
     PollRequest:
       type: object
       required:
@@ -149,21 +135,29 @@ components:
           type: string
           description: The identifier for the video generation request to check
           example: op_xyz789abc
-    SubmitResponse:
+    PollResponse:
       type: object
-      description: Response from a job submission containing the operation ID
+      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
+
+        '
       properties:
-        operationId:
+        url:
           type: string
-          description: Unique identifier for the submitted job; use with poll endpoints
-          example: op_xyz789abc
+          description: URL to the generated video (present when state=COMPLETE)
+          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
+        state:
+          type: string
+          enum:
+          - QUEUED
+          - PROCESSING
+          - COMPLETE
+          description: Current state of the job
+          example: COMPLETE
+        progress:
+          type: number
+          description: Progress indicator (present while in-flight)
+          example: 65
   responses:
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     RateLimited:
       description: Too Many Requests — rate limit is 5 requests per minute
       content:
@@ -172,6 +166,12 @@ components:
             type: string
     Unauthorized:
       description: Unauthorized — invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
       content:
         application/json:
           schema:

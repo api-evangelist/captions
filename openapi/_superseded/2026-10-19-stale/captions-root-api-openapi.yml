@@ -1,0 +1,21 @@
+openapi: 3.2.0
+info:
+  title: Mirage Video Root API
+  description: API for AI-powered video generation
+  version: 0.0.1
+tags:
+- name: Root
+paths:
+  /:
+    get:
+      tags:
+      - Root
+      summary: Root
+      description: Root endpoint providing API information and navigation
+      operationId: root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}

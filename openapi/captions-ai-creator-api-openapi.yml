@@ -83,28 +83,34 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    PollResponse:
+    CreatorThumbnail:
       type: object
-      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
-
-        '
+      description: Thumbnail assets for an AI creator
       properties:
-        url:
+        imageUrl:
           type: string
-          description: URL to the generated video (present when state=COMPLETE)
-          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
-        state:
+          description: Static thumbnail image URL
+          example: https://cdn.captions.ai/creators/kate/thumb.jpg
+        videoUrl:
           type: string
-          enum:
-          - QUEUED
-          - PROCESSING
-          - COMPLETE
-          description: Current state of the job
-          example: COMPLETE
-        progress:
-          type: number
-          description: Progress indicator (present while in-flight)
-          example: 65
+          description: Short preview video URL
+          example: https://cdn.captions.ai/creators/kate/preview.mp4
+    ErrorResponse:
+      type: object
+      description: Error response body
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized API key
+    SubmitResponse:
+      type: object
+      description: Response from a job submission containing the operation ID
+      properties:
+        operationId:
+          type: string
+          description: Unique identifier for the submitted job; use with poll endpoints
+          example: op_xyz789abc
     CreatorSubmitRequest:
       type: object
       required:
@@ -134,18 +140,6 @@ components:
           - 4k
           default: 4k
           description: Output video resolution
-    CreatorThumbnail:
-      type: object
-      description: Thumbnail assets for an AI creator
-      properties:
-        imageUrl:
-          type: string
-          description: Static thumbnail image URL
-          example: https://cdn.captions.ai/creators/kate/thumb.jpg
-        videoUrl:
-          type: string
-          description: Short preview video URL
-          example: https://cdn.captions.ai/creators/kate/preview.mp4
     CreatorListResponse:
       type: object
       description: List of available AI creators with thumbnail assets
@@ -164,14 +158,6 @@ components:
           description: Map of creator name to thumbnail URLs
           additionalProperties:
             $ref: '#/components/schemas/CreatorThumbnail'
-    ErrorResponse:
-      type: object
-      description: Error response body
-      properties:
-        detail:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized API key
     PollRequest:
       type: object
       required:
@@ -182,14 +168,28 @@ components:
           type: string
           description: The identifier for the video generation request to check
           example: op_xyz789abc
-    SubmitResponse:
+    PollResponse:
       type: object
-      description: Response from a job submission containing the operation ID
+      description: 'Job status response. If completed, includes a video URL and state=COMPLETE. If still in flight, includes state (QUEUED or PROCESSING) and a progress value.
+
+        '
       properties:
-        operationId:
+        url:
           type: string
-          description: Unique identifier for the submitted job; use with poll endpoints
-          example: op_xyz789abc
+          description: URL to the generated video (present when state=COMPLETE)
+          example: https://cdn.captions.ai/videos/op_xyz789abc.mp4
+        state:
+          type: string
+          enum:
+          - QUEUED
+          - PROCESSING
+          - COMPLETE
+          description: Current state of the job
+          example: COMPLETE
+        progress:
+          type: number
+          description: Progress indicator (present while in-flight)
+          example: 65
   responses:
     RateLimited:
       description: Too Many Requests — rate limit is 5 requests per minute
@@ -197,14 +197,14 @@ components:
         text/html:
           schema:
             type: string
-    BadRequest:
-      description: Bad Request — missing required fields or invalid parameters
+    Unauthorized:
+      description: Unauthorized — invalid or missing API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized — invalid or missing API key
+    BadRequest:
+      description: Bad Request — missing required fields or invalid parameters
       content:
         application/json:
           schema:

@@ -1,0 +1,328 @@
+openapi: 3.2.0
+info:
+  title: Mirage Video Videos v2 API
+  description: API for AI-powered video generation
+  version: 0.0.1
+tags:
+- name: Videos v2
+paths:
+  /v2/videos:
+    post:
+      tags:
+      - Videos v2
+      summary: Create Video (v2)
+      description: Create a video from an appearance reference and either audio or a script.
+      operationId: create_video_v2_videos_post
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          description: Unique key used to safely retry this request.
+          title: Idempotency-Key
+        description: Unique key used to safely retry this request.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          description: API Key for authentication
+          title: X-Api-Key
+        description: API Key for authentication
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MirageVideoAPIV2Video'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                model:
+                  type: string
+                  enum:
+                  - mirage-avatar-x-latest
+                  default: mirage-avatar-x-latest
+                avatar_id:
+                  type: string
+                appearance_url:
+                  type: string
+                  format: uri
+                appearance_file:
+                  type: string
+                  format: binary
+                  description: JPEG or PNG up to 25 MiB; MP4 or MOV up to 500 MiB.
+                audio_url:
+                  type: string
+                  format: uri
+                audio_file:
+                  type: string
+                  format: binary
+                  description: WAV or MP3 up to 64 MiB.
+                script:
+                  type: string
+                  maxLength: 1500
+                voice_id:
+                  type: string
+                voice_reference_url:
+                  type: string
+                  format: uri
+                voice_reference_file:
+                  type: string
+                  format: binary
+                  description: WAV or MP3 up to 64 MiB.
+    get:
+      tags:
+      - Videos v2
+      summary: List Videos (v2)
+      description: List the videos created by the authenticated caller.
+      operationId: list_videos_v2_videos_get
+      parameters:
+      - name: after
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 128
+            pattern: ^video_[A-Za-z0-9_-]+$
+          - type: 'null'
+          description: Return videos strictly after this video ID.
+          title: After
+        description: Return videos strictly after this video ID.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Maximum number of videos to return.
+          default: 20
+          title: Limit
+        description: Maximum number of videos to return.
+      - name: order
+        in: query
+        required: false
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+          description: Sort order by creation time.
+          default: desc
+          title: Order
+        description: Sort order by creation time.
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          description: API Key for authentication
+          title: X-Api-Key
+        description: API Key for authentication
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                title: Response List Videos V2 Videos Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/videos/{video_id}:
+    get:
+      tags:
+      - Videos v2
+      summary: Retrieve Video (v2)
+      description: Retrieve a video and its current status. Completed videos include a download URL.
+      operationId: get_video_v2_videos__video_id__get
+      parameters:
+      - name: video_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Video Id
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          description: API Key for authentication
+          title: X-Api-Key
+        description: API Key for authentication
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MirageVideoAPIV2Video'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    MirageVideoAPIV2TerminalError:
+      properties:
+        code:
+          type: string
+          enum:
+          - no_face_detected
+          - media_processing_failed
+          - content_policy_violation
+          - exceeded_quota
+          - rate_limit_exceeded
+          - internal_server_error
+          title: Code
+        message:
+          type: string
+          title: Message
+      additionalProperties: false
+      type: object
+      required:
+      - code
+      - message
+      title: MirageVideoAPIV2TerminalError
+    MirageVideoAPIV2Video:
+      properties:
+        id:
+          type: string
+          pattern: ^video_[A-Za-z0-9_-]+$
+          title: Id
+        object:
+          type: string
+          const: video
+          title: Object
+          default: video
+        status:
+          type: string
+          enum:
+          - PROCESSING
+          - COMPLETE
+          - FAILED
+          - CANCELLED
+          title: Status
+        model:
+          type: string
+          const: mirage-avatar-x-latest
+          title: Model
+          default: mirage-avatar-x-latest
+        aspect_ratio:
+          anyOf:
+          - type: string
+            enum:
+            - '9:16'
+            - '16:9'
+          - type: 'null'
+          title: Aspect Ratio
+        created_at:
+          type: integer
+          title: Created At
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+        output:
+          anyOf:
+          - $ref: '#/components/schemas/MirageVideoAPIV2Output'
+          - type: 'null'
+        error:
+          anyOf:
+          - $ref: '#/components/schemas/MirageVideoAPIV2TerminalError'
+          - type: 'null'
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - status
+      - created_at
+      title: MirageVideoAPIV2Video
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MirageVideoAPIV2Output:
+      properties:
+        url:
+          type: string
+          maxLength: 4096
+          minLength: 1
+          format: uri
+          title: Url
+        content_type:
+          type: string
+          title: Content Type
+        duration_ms:
+          type: integer
+          minimum: 0.0
+          title: Duration Ms
+        size_bytes:
+          type: integer
+          minimum: 0.0
+          title: Size Bytes
+      additionalProperties: false
+      type: object
+      required:
+      - url
+      - content_type
+      - duration_ms
+      - size_bytes
+      title: MirageVideoAPIV2Output
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

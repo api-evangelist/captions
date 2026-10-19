@@ -27,6 +27,11 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/Body_create_video_generation_v1_videos_post'
+              oneOf:
+              - required:
+                - image_reference
+              - required:
+                - video_reference
       responses:
         '200':
           description: Returns a Video object representing the generation job
@@ -182,6 +187,94 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_create_video_generation_v1_videos_post:
+      properties:
+        audio_reference:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Audio Reference
+          description: Driving audio file (WAV or MP3, 1-180 seconds)
+        image_reference:
+          anyOf:
+          - type: string
+            contentMediaType: application/octet-stream
+          - type: 'null'
+          title: Image Reference
+          description: Image appearance reference (JPEG or PNG). Exactly one visual reference is required.
+        video_reference:
+          anyOf:
+          - type: string
+            contentMediaType: application/octet-stream
+          - type: 'null'
+          title: Video Reference
+          description: Video appearance reference (MP4 or MOV, 10-60 seconds; feature-gated preview). Exactly one visual reference is required.
+        model:
+          type: string
+          enum:
+          - mirage-avatar-x
+          - mirage-video-1-latest
+          title: Model
+          description: Model to use for generation
+          default: mirage-avatar-x
+      type: object
+      required:
+      - audio_reference
+      title: Body_create_video_generation_v1_videos_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MAVideoError:
+      properties:
+        code:
+          type: string
+          title: Code
+          description: Error code
+          examples:
+          - rate_limit_exceeded
+        message:
+          type: string
+          title: Message
+          description: Error message
+          examples:
+          - Rate limit exceeded. Please try again later.
+      type: object
+      required:
+      - code
+      - message
+      title: MAVideoError
+      description: Error payload that explains why generation failed, if applicable
     MAVideo:
       properties:
         id:
@@ -238,12 +331,36 @@ components:
         model:
           anyOf:
           - type: string
-            const: mirage-video-1-latest
+            enum:
+            - mirage-avatar-x
+            - mirage-video-1-latest
           - type: 'null'
           title: Model
           description: Model used for generation (only for source='generation')
           examples:
-          - mirage-video-1-latest
+          - mirage-avatar-x
+        generation_mode:
+          anyOf:
+          - type: string
+            enum:
+            - image_to_video
+            - video_to_video
+          - type: 'null'
+          title: Generation Mode
+          description: Generation mode resolved from the submitted inputs
+          examples:
+          - video_to_video
+        aspect_ratio:
+          anyOf:
+          - type: string
+            enum:
+            - '9:16'
+            - '16:9'
+          - type: 'null'
+          title: Aspect Ratio
+          description: Output aspect ratio resolved from the visual reference
+          examples:
+          - '16:9'
         source_video_id:
           anyOf:
           - type: string
@@ -283,13 +400,13 @@ components:
       description: 'Represents a video object.
 
 
-        A video can be created via generation (an image appearance reference plus audio) or
+        A video can be created via generation (an image or video appearance reference plus audio) or
 
         captioning (adding captions to an existing video).'
       examples:
       - completed_at: 1730822520
         created_at: 1730822400
-        model: mirage-video-1-latest
+        model: mirage-avatar-x
         progress: 100
         status: COMPLETE
         video_id: video_abc123def456
@@ -299,83 +416,3 @@ components:
         source_video_id: video_abc123def456
         status: PROCESSING
         video_id: video_xyz789
-    MAVideoError:
-      properties:
-        code:
-          type: string
-          title: Code
-          description: Error code
-          examples:
-          - rate_limit_exceeded
-        message:
-          type: string
-          title: Message
-          description: Error message
-          examples:
-          - Rate limit exceeded. Please try again later.
-      type: object
-      required:
-      - code
-      - message
-      title: MAVideoError
-      description: Error payload that explains why generation failed, if applicable
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_create_video_generation_v1_videos_post:
-      properties:
-        audio_reference:
-          type: string
-          contentMediaType: application/octet-stream
-          title: Audio Reference
-          description: Audio file (WAV or MP3)
-        image_reference:
-          anyOf:
-          - type: string
-            contentMediaType: application/octet-stream
-          - type: 'null'
-          title: Image Reference
-          description: Image appearance reference (JPEG or PNG).
-        model:
-          type: string
-          const: mirage-video-1-latest
-          title: Model
-          description: Model to use for generation
-          default: mirage-video-1-latest
-      type: object
-      required:
-      - audio_reference
-      - image_reference
-      title: Body_create_video_generation_v1_videos_post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

@@ -1,0 +1,386 @@
+openapi: 3.2.0
+info:
+  title: Mirage Video Internal Fal API
+  description: API for AI-powered video generation
+  version: 0.0.1
+tags:
+- name: internal-fal
+paths:
+  /internal/fal/videos/reference-to-video:
+    post:
+      tags:
+      - internal-fal
+      summary: Submit Fal Reference To Video
+      operationId: submit_fal_reference_to_video_internal_fal_videos_reference_to_video_post
+      parameters:
+      - name: x-fal-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+          title: X-Fal-Request-Id
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FalBridgeReferenceToVideoRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FalBridgeSubmitResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /internal/fal/videos/text-to-video:
+    post:
+      tags:
+      - internal-fal
+      summary: Submit Fal Text To Video
+      operationId: submit_fal_text_to_video_internal_fal_videos_text_to_video_post
+      parameters:
+      - name: x-fal-request-id
+        in: header
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+          title: X-Fal-Request-Id
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FalBridgeTextToVideoRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FalBridgeSubmitResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /internal/fal/videos/{video_id}:
+    get:
+      tags:
+      - internal-fal
+      summary: Get Fal Video Status
+      operationId: get_fal_video_status_internal_fal_videos__video_id__get
+      parameters:
+      - name: video_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Video Id
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FalBridgeStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /internal/fal/videos/{video_id}/cancel:
+    post:
+      tags:
+      - internal-fal
+      summary: Cancel Fal Video
+      operationId: cancel_fal_video_internal_fal_videos__video_id__cancel_post
+      parameters:
+      - name: video_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Video Id
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FalBridgeLifecycleResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /internal/fal/videos/{video_id}/delivered:
+    post:
+      tags:
+      - internal-fal
+      summary: Acknowledge Fal Video Delivered
+      operationId: acknowledge_fal_video_delivered_internal_fal_videos__video_id__delivered_post
+      parameters:
+      - name: video_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Video Id
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: X-Api-Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FalBridgeLifecycleResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    FalBridgeLifecycleResponse:
+      properties:
+        status:
+          type: string
+          enum:
+          - CANCELLED
+          - DELIVERED
+          title: Status
+      type: object
+      required:
+      - status
+      title: FalBridgeLifecycleResponse
+    FalBridgeTextToVideoRequest:
+      properties:
+        actor_id:
+          anyOf:
+          - type: string
+            maxLength: 256
+            minLength: 1
+          - type: 'null'
+          title: Actor Id
+        script:
+          type: string
+          maxLength: 1500
+          minLength: 1
+          title: Script
+        video_reference_url:
+          anyOf:
+          - type: string
+            maxLength: 4096
+            minLength: 1
+          - type: 'null'
+          title: Video Reference Url
+        audio_reference_url:
+          anyOf:
+          - type: string
+            maxLength: 4096
+            minLength: 1
+          - type: 'null'
+          title: Audio Reference Url
+      additionalProperties: false
+      type: object
+      required:
+      - script
+      title: FalBridgeTextToVideoRequest
+    FalBridgeStatusError:
+      properties:
+        code:
+          type: string
+          title: Code
+        message:
+          type: string
+          title: Message
+        retryable:
+          type: boolean
+          title: Retryable
+      type: object
+      required:
+      - code
+      - message
+      - retryable
+      title: FalBridgeStatusError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FalBridgeSubmitResponse:
+      properties:
+        video_id:
+          type: string
+          title: Video Id
+        status:
+          type: string
+          enum:
+          - PROCESSING
+          - FAILED
+          - CANCELLED
+          - COMPLETE
+          title: Status
+        duration_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration Ms
+      type: object
+      required:
+      - video_id
+      - status
+      title: FalBridgeSubmitResponse
+    FalBridgeStatusResponse:
+      properties:
+        status:
+          type: string
+          enum:
+          - QUEUED
+          - PROCESSING
+          - COMPLETE
+          - FAILED
+          - CANCELLED
+          title: Status
+        progress:
+          type: integer
+          maximum: 100.0
+          minimum: 0.0
+          title: Progress
+        duration_ms:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Duration Ms
+        output_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Output Url
+        content_type:
+          anyOf:
+          - type: string
+            const: video/mp4
+          - type: 'null'
+          title: Content Type
+        billable_units:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Billable Units
+        error:
+          anyOf:
+          - $ref: '#/components/schemas/FalBridgeStatusError'
+          - type: 'null'
+      type: object
+      required:
+      - status
+      - progress
+      title: FalBridgeStatusResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FalBridgeReferenceToVideoRequest:
+      properties:
+        audio_url:
+          type: string
+          maxLength: 4096
+          minLength: 1
+          title: Audio Url
+        actor_id:
+          anyOf:
+          - type: string
+            maxLength: 256
+            minLength: 1
+          - type: 'null'
+          title: Actor Id
+        image_url:
+          anyOf:
+          - type: string
+            maxLength: 4096
+            minLength: 1
+          - type: 'null'
+          title: Image Url
+        video_url:
+          anyOf:
+          - type: string
+            maxLength: 4096
+            minLength: 1
+          - type: 'null'
+          title: Video Url
+      additionalProperties: false
+      type: object
+      required:
+      - audio_url
+      title: FalBridgeReferenceToVideoRequest

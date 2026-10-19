@@ -1,0 +1,308 @@
+openapi: 3.2.0
+info:
+  title: Mirage Video Catalog API
+  description: API for AI-powered video generation
+  version: 0.0.1
+tags:
+- name: Catalog
+paths:
+  /v1/avatars:
+    get:
+      tags:
+      - Catalog
+      summary: List Avatars
+      operationId: list_avatars_v1_avatars_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 20
+          title: Limit
+      - name: after
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 512
+          - type: 'null'
+          title: After
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          description: API Key for authentication
+          title: X-Api-Key
+        description: API Key for authentication
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogPage_PublicAvatar_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/voices:
+    get:
+      tags:
+      - Catalog
+      summary: List Voices
+      operationId: list_voices_v1_voices_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 20
+          title: Limit
+      - name: after
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 512
+          - type: 'null'
+          title: After
+      - name: x-api-key
+        in: header
+        required: true
+        schema:
+          type: string
+          description: API Key for authentication
+          title: X-Api-Key
+        description: API Key for authentication
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogPage_PublicVoice_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CatalogPage_PublicVoice_:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PublicVoice'
+          type: array
+          title: Data
+        has_more:
+          type: boolean
+          title: Has More
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      additionalProperties: false
+      type: object
+      required:
+      - data
+      - has_more
+      - next_cursor
+      title: CatalogPage[PublicVoice]
+    PublicAvatar:
+      properties:
+        id:
+          type: string
+          title: Id
+        object:
+          type: string
+          const: avatar
+          title: Object
+          default: avatar
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the avatar's visual appearance and setting.
+        source:
+          type: string
+          enum:
+          - stock
+          - custom
+          title: Source
+        thumbnail_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Thumbnail Url
+        preview_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Preview Url
+        aspect_ratio:
+          type: string
+          enum:
+          - '9:16'
+          - '16:9'
+          title: Aspect Ratio
+        paired_voice:
+          anyOf:
+          - $ref: '#/components/schemas/PublicPairedVoice'
+          - type: 'null'
+          description: Current usable voice paired with this avatar. Pass its ID explicitly when creating script audio.
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - name
+      - source
+      - thumbnail_url
+      - aspect_ratio
+      title: PublicAvatar
+    PublicPairedVoice:
+      properties:
+        id:
+          type: string
+          title: Id
+        object:
+          type: string
+          const: voice
+          title: Object
+          default: voice
+        name:
+          type: string
+          title: Name
+        source:
+          type: string
+          enum:
+          - stock
+          - custom
+          title: Source
+        preview_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Preview Url
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - name
+      - source
+      title: PublicPairedVoice
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PublicVoice:
+      properties:
+        id:
+          type: string
+          title: Id
+        object:
+          type: string
+          const: voice
+          title: Object
+          default: voice
+        name:
+          type: string
+          title: Name
+        source:
+          type: string
+          enum:
+          - stock
+          - custom
+          title: Source
+        preview_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Preview Url
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - name
+      - source
+      title: PublicVoice
+    CatalogPage_PublicAvatar_:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/PublicAvatar'
+          type: array
+          title: Data
+        has_more:
+          type: boolean
+          title: Has More
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      additionalProperties: false
+      type: object
+      required:
+      - data
+      - has_more
+      - next_cursor
+      title: CatalogPage[PublicAvatar]
