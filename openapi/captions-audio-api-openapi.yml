@@ -112,3 +112,9 @@ components:
       - model
       title: TTSRequest
       description: Request body for text-to-speech generation
+x-provenance:
+  method: harvested
+  publisher: Captions
+  source: https://api.mirage.app/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
